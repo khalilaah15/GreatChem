@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ChemTryResultPage extends StatefulWidget {
@@ -156,20 +157,41 @@ class _ChemTryResultPageState extends State<ChemTryResultPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Hasil ChemTry Siswa')),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        centerTitle: true,
+        title: Text(
+          'Hasil ChemTry Siswa',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 24.sp,
+            fontFamily: 'Plus Jakarta Sans',
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+        backgroundColor: const Color(0xFF6C432D),
+      ),
+      backgroundColor: const Color(0xFFDFCFB5),
       body:
           _isLoading
               ? const Center(child: CircularProgressIndicator())
-              : ListView(
-                padding: const EdgeInsets.all(16.0),
-                children: [
-                  _buildStudentDropdown(),
-                  const SizedBox(height: 20),
-                  if (_isResultLoading)
-                    const Center(child: CircularProgressIndicator()),
-                  if (!_isResultLoading && _submission != null)
-                    _buildResultDetails(),
-                ],
+              : SingleChildScrollView(
+                padding: EdgeInsets.all(16.r),
+                child: Column(
+                  children: [
+                    _buildStudentDropdown(),
+                    const SizedBox(height: 20),
+                    if (_isResultLoading)
+                      const Center(child: CircularProgressIndicator()),
+                    if (!_isResultLoading && _submission != null)
+                      _buildResultDetails(),
+                  ],
+                ),
               ),
     );
   }
@@ -179,7 +201,12 @@ class _ChemTryResultPageState extends State<ChemTryResultPage> {
       value: _selectedStudentId,
       hint: const Text('Pilih siswa untuk melihat hasil'),
       decoration: InputDecoration(
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+        filled: true,
+        fillColor: const Color(0xFFF8F6E9),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.r),
+          borderSide: BorderSide.none,
+        ),
       ),
       items:
           _students.map((student) {
@@ -227,7 +254,9 @@ class _ChemTryResultPageState extends State<ChemTryResultPage> {
           controller: _feedbackController,
           maxLines: 4,
           decoration: InputDecoration(
-            hintText: 'Tulis feedback konstruktif di sini...',
+            filled: true,
+            fillColor: Colors.white,
+            hintText: 'Tulis feedback di sini...',
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
           ),
         ),
@@ -237,13 +266,18 @@ class _ChemTryResultPageState extends State<ChemTryResultPage> {
           child: ElevatedButton.icon(
             // --- PERUBAHAN DI SINI ---
             onPressed: _isSubmittingFeedback ? null : _sendOrUpdateFeedback,
-            icon: Icon(_feedbackAlreadyExists ? Icons.edit : Icons.send),
+            icon: Icon(
+              _feedbackAlreadyExists ? Icons.edit : Icons.send,
+              color: Colors.white,
+              size: 18.sp,
+            ),
             label: Text(
               _isSubmittingFeedback
                   ? 'Mengirim...'
                   : _feedbackAlreadyExists
                   ? 'Perbarui Feedback'
                   : 'Kirim Feedback',
+              style: TextStyle(color: Colors.white, fontSize: 13.sp),
             ),
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 12),

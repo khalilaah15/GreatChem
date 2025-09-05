@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:markdown_widget/config/configs.dart';
 import 'package:markdown_widget/widget/blocks/leaf/paragraph.dart';
 import 'package:markdown_widget/widget/markdown.dart';
-// import 'package:flutter_math_fork/flutter_math.dart';
-// import 'package:flutter_tex/flutter_tex.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ChemTryPage extends StatefulWidget {
-  const ChemTryPage({Key? key}) : super(key: key);
+  final VoidCallback onFinished;
+  const ChemTryPage({Key? key, required this.onFinished}) : super(key: key);
 
   @override
   State<ChemTryPage> createState() => _ChemTryPageState();
@@ -135,6 +135,7 @@ class _ChemTryPageState extends State<ChemTryPage> {
         answer['submission_id'] = submissionId;
       }
       await _supabase.from('chem_try_answers').insert(answerDetails);
+      widget.onFinished();
 
       setState(() {
         _totalScore = currentScore;
@@ -159,7 +160,26 @@ class _ChemTryPageState extends State<ChemTryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('ChemTry - Latihan Soal')),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        centerTitle: true,
+        title: Text(
+          'ChemTry',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 24.sp,
+            fontFamily: 'Plus Jakarta Sans',
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+        backgroundColor: const Color(0xFF6C432D),
+      ),
+      backgroundColor: const Color(0xFFDFCFB5),
       body:
           _isLoading
               ? const Center(child: CircularProgressIndicator())
@@ -174,7 +194,7 @@ class _ChemTryPageState extends State<ChemTryPage> {
       children: [
         Expanded(
           child: ListView.builder(
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(16.r),
             itemCount: _questions.length,
             itemBuilder: (context, index) {
               final question = _questions[index];
@@ -182,22 +202,22 @@ class _ChemTryPageState extends State<ChemTryPage> {
               final options = Map<String, dynamic>.from(question['options']);
 
               return Card(
-                margin: const EdgeInsets.only(bottom: 16),
+                margin: EdgeInsets.only(bottom: 16.h),
                 child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: EdgeInsets.all(16.r),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         '${index + 1}. ${question['question_text']}',
-                        style: const TextStyle(
-                          fontSize: 16,
+                        style: TextStyle(
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                       if (question['image_url'] != null)
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 12.0),
+                          padding: EdgeInsets.symmetric(vertical: 12.h),
                           child: Image.network(
                             question['image_url'],
                             errorBuilder:
@@ -206,7 +226,7 @@ class _ChemTryPageState extends State<ChemTryPage> {
                             fit: BoxFit.cover,
                           ),
                         ),
-                      const SizedBox(height: 10),
+                      SizedBox(height: 10.h),
                       ...options.entries.map((option) {
                         return RadioListTile<String>(
                           title: Text(option.value),
@@ -227,15 +247,23 @@ class _ChemTryPageState extends State<ChemTryPage> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(16.r),
           child: SizedBox(
             width: double.infinity,
             child: ElevatedButton(
               onPressed: _submitQuiz,
               style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 16),
+                padding: EdgeInsets.symmetric(vertical: 14.h),
+                backgroundColor: const Color(0xFFED832F),
               ),
-              child: const Text('Submit Jawaban'),
+              child: Text(
+                'Submit Jawaban',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
             ),
           ),
         ),
@@ -249,41 +277,44 @@ class _ChemTryPageState extends State<ChemTryPage> {
         _submissionData!['teacher_feedback'].isNotEmpty;
 
     return ListView(
-      padding: const EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(16.r),
       children: [
         Card(
           color: Colors.blue.shade50,
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: EdgeInsets.all(20.r),
             child: Column(
               children: [
-                const Text('Skor Akhir Kamu', style: TextStyle(fontSize: 20)),
+                Text('Skor Akhir Kamu', style: TextStyle(fontSize: 20.sp)),
                 Text(
                   '$_totalScore',
-                  style: const TextStyle(
-                    fontSize: 64,
+                  style: TextStyle(
+                    fontSize: 64.sp,
                     fontWeight: FontWeight.bold,
                     color: Colors.blue,
                   ),
                 ),
-                const Text('dari 100 poin', style: TextStyle(fontSize: 16)),
+                Text('dari 100 poin', style: TextStyle(fontSize: 16.sp)),
               ],
             ),
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Card(
           color: hasFeedback ? Colors.green.shade50 : Colors.orange.shade50,
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(16.r),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   'Feedback dari Guru:',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13.sp,
+                  ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
                 Text(
                   hasFeedback
                       ? _submissionData!['teacher_feedback']
@@ -292,18 +323,19 @@ class _ChemTryPageState extends State<ChemTryPage> {
                     fontStyle:
                         hasFeedback ? FontStyle.normal : FontStyle.italic,
                     color: hasFeedback ? Colors.black87 : Colors.black54,
+                    fontSize: 13.sp,
                   ),
                 ),
               ],
             ),
           ),
         ),
-        const SizedBox(height: 24),
-        const Text(
+        SizedBox(height: 10.h),
+        Text(
           'Koreksi Jawaban:',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
         ),
-        const SizedBox(height: 10),
+        SizedBox(height: 10.h),
         ..._questions.map((question) {
           final questionId = question['id'];
           final selected = _selectedAnswers[questionId];
@@ -314,20 +346,23 @@ class _ChemTryPageState extends State<ChemTryPage> {
 
           return Card(
             color: isCorrect ? Colors.green.shade50 : Colors.red.shade50,
-            margin: const EdgeInsets.only(bottom: 12),
+            margin: EdgeInsets.only(bottom: 12.h),
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(16.r),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     question['question_text'],
-                    style: const TextStyle(fontWeight: FontWeight.w500),
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 13.sp,
+                    ),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   if (question['image_url'] != null)
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12.0),
+                      padding: EdgeInsets.symmetric(vertical: 12.h),
                       child: Image.network(
                         question['image_url'],
                         errorBuilder:
@@ -336,10 +371,10 @@ class _ChemTryPageState extends State<ChemTryPage> {
                         fit: BoxFit.cover,
                       ),
                     ),
-
                   Text(
                     'Jawabanmu: $selected. ${options[selected] ?? ''}',
                     style: TextStyle(
+                      fontSize: 13.sp,
                       color:
                           isCorrect
                               ? Colors.green.shade800
@@ -349,29 +384,30 @@ class _ChemTryPageState extends State<ChemTryPage> {
                   if (!isCorrect)
                     Text(
                       'Jawaban Benar: $correct. ${options[correct] ?? ''}',
-                      style: TextStyle(color: Colors.green.shade800),
+                      style: TextStyle(
+                        color: Colors.green.shade800,
+                        fontSize: 13.sp,
+                      ),
                     ),
-
-                  // ... (setelah kode untuk 'Jawaban Benar')
                   if (explanation != null && explanation.isNotEmpty ||
                       (question['explanation_image_url'] != null &&
                           question['explanation_image_url']
                               .toString()
                               .trim()
                               .isNotEmpty)) ...[
-                    const Divider(height: 20),
+                    Divider(height: 20.h),
                     Text(
                       'Penjelasan:',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.blue.shade800,
+                        fontSize: 13.sp,
                       ),
                     ),
-                    const SizedBox(height: 4),
                     if (question['explanation'] != null &&
                         question['explanation'].toString().isNotEmpty)
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
+                        padding: EdgeInsets.only(bottom: 8.h),
                         child: Text(question['explanation']),
                       ),
                     if (question['explanation_image_url'] != null &&
@@ -380,10 +416,8 @@ class _ChemTryPageState extends State<ChemTryPage> {
                             .trim()
                             .isNotEmpty)
                       Image.network(
-                        question['explanation_image_url']
-                            .toString()
-                            .trim(),
-                        height: 500,
+                        question['explanation_image_url'].toString().trim(),
+                        height: 500.h,
                         width: double.infinity,
                         fit: BoxFit.contain,
                         loadingBuilder: (context, child, loadingProgress) {
@@ -399,7 +433,7 @@ class _ChemTryPageState extends State<ChemTryPage> {
                                   Icons.broken_image,
                                   color: Colors.grey,
                                 ),
-                                const SizedBox(height: 4),
+                                SizedBox(height: 4.h),
                                 Text(
                                   'Gagal memuat gambar',
                                   style: TextStyle(color: Colors.grey.shade600),

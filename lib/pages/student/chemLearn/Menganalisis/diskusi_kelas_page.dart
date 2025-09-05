@@ -1,13 +1,16 @@
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:greatchem/service/chat_kelas_supabase_service.dart';
 import 'package:greatchem/pages/student/chemLearn/Menganalisis/penilaian_sebaya_page.dart';
 
 class DiskusiKelasPage extends StatefulWidget {
-  const DiskusiKelasPage({super.key});
+  final VoidCallback onFinished;
+  const DiskusiKelasPage({Key? key, required this.onFinished})
+    : super(key: key);
 
   @override
   State<DiskusiKelasPage> createState() => _DiskusiKelasPageState();
@@ -61,41 +64,28 @@ class _DiskusiKelasPageState extends State<DiskusiKelasPage> {
     }
   }
 
-  // Ganti fungsi _sendMessage yang lama:
   Future<void> _sendMessage() async {
     if (_currentUsername == null) return;
 
     final messageText = _msgController.text.trim();
     if (messageText.isNotEmpty) {
-      // Ambil ID pengguna saat ini
       final userId = Supabase.instance.client.auth.currentUser?.id;
-      if (userId == null) return; // Pastikan user ID ada
+      if (userId == null) return;
 
-      await service.sendMessage(
-        _currentUsername!,
-        messageText,
-        userId, // Kirimkan userId ke service
-      );
+      await service.sendMessage(_currentUsername!, messageText, userId);
       _msgController.clear();
     }
   }
 
-  // Ganti juga fungsi _sendFile yang lama:
   Future<void> _sendFile() async {
     if (_currentUsername == null) return;
     final result = await FilePicker.platform.pickFiles();
     if (result != null) {
       final file = File(result.files.single.path!);
-      // Ambil ID pengguna saat ini
       final userId = Supabase.instance.client.auth.currentUser?.id;
-      if (userId == null) return; // Pastikan user ID ada
+      if (userId == null) return;
 
-      await service.sendMessage(
-        _currentUsername!,
-        "",
-        userId, // Kirimkan userId ke service
-        file: file,
-      );
+      await service.sendMessage(_currentUsername!, "", userId, file: file);
     }
   }
 
@@ -106,9 +96,59 @@ class _DiskusiKelasPageState extends State<DiskusiKelasPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Diskusi Kelas")),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        centerTitle: true,
+        title: Text(
+          'Menganalisis & Mengevaluasi Proses Pemecahan Masalah',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 24.sp,
+            fontFamily: 'Plus Jakarta Sans',
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+        backgroundColor: const Color(0xFF6C432D),
+      ),
+      backgroundColor: const Color(0xFFDFCFB5),
       body: Column(
         children: [
+          Container(
+            padding: EdgeInsets.all(16.r),
+            margin: EdgeInsets.all(10.r),
+            width: double.infinity,
+            clipBehavior: Clip.antiAlias,
+            decoration: ShapeDecoration(
+              color: const Color(0xFFFFDC7C),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.r),
+              ),
+              shadows: [
+                BoxShadow(
+                  color: const Color(0x3F000000),
+                  blurRadius: 4.r,
+                  offset: const Offset(0, 0),
+                  spreadRadius: 0,
+                ),
+              ],
+            ),
+            child: Text(
+              '1. Berikan tanggapan atau masukkan dari hasil presentasi kelompok lain\n2. Tanggapan atau masukkan bisa berupa kesimpulan yang diperoleh.',
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                color: const Color(0xFF6C432D),
+                fontSize: 13.sp,
+                fontFamily: 'Plus Jakarta Sans',
+                fontWeight: FontWeight.w600,
+                height: 1.25,
+              ),
+            ),
+          ),
           Expanded(
             child: StreamBuilder<List<Map<String, dynamic>>>(
               stream: service.getMessages(),
@@ -122,7 +162,7 @@ class _DiskusiKelasPageState extends State<DiskusiKelasPage> {
                 });
                 return ListView.builder(
                   controller: _scrollController,
-                  padding: const EdgeInsets.all(10),
+                  padding: EdgeInsets.all(10.r),
                   itemCount: messages.length,
                   itemBuilder: (context, index) {
                     final msg = messages[index];
@@ -144,10 +184,10 @@ class _DiskusiKelasPageState extends State<DiskusiKelasPage> {
 
   Widget _buildMessageBubble(Map<String, dynamic> msg, bool isMe) {
     final bubbleRadius = BorderRadius.only(
-      topLeft: const Radius.circular(16),
-      topRight: const Radius.circular(16),
-      bottomRight: isMe ? const Radius.circular(4) : const Radius.circular(16),
-      bottomLeft: isMe ? const Radius.circular(16) : const Radius.circular(4),
+      topLeft: Radius.circular(16.r),
+      topRight: Radius.circular(16.r),
+      bottomRight: isMe ? Radius.circular(4.r) : Radius.circular(16.r),
+      bottomLeft: isMe ? Radius.circular(16.r) : Radius.circular(4.r),
     );
 
     return Align(
@@ -156,15 +196,15 @@ class _DiskusiKelasPageState extends State<DiskusiKelasPage> {
         constraints: BoxConstraints(
           maxWidth: MediaQuery.of(context).size.width * 0.75,
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-        margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
+        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
+        margin: EdgeInsets.symmetric(vertical: 5.h, horizontal: 8.w),
         decoration: BoxDecoration(
-          color: isMe ? const Color(0xFFDCF8C6) : Colors.white,
+          color: isMe ? const Color(0xFFFFDC7C) : Colors.white,
           borderRadius: bubbleRadius,
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.07),
-              blurRadius: 3,
+              blurRadius: 3.r,
               offset: const Offset(1, 1),
             ),
           ],
@@ -178,17 +218,14 @@ class _DiskusiKelasPageState extends State<DiskusiKelasPage> {
                 msg['username'] ?? 'Tanpa Nama',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 13,
+                  fontSize: 13.sp,
                   color: Theme.of(context).primaryColor,
                 ),
               ),
             if ((msg['message'] as String?)?.isNotEmpty ?? false)
               Padding(
-                padding: EdgeInsets.only(top: isMe ? 0 : 4),
-                child: Text(
-                  msg['message'],
-                  style: const TextStyle(fontSize: 16),
-                ),
+                padding: EdgeInsets.only(top: isMe ? 0 : 4.h),
+                child: Text(msg['message'], style: TextStyle(fontSize: 13.sp)),
               ),
             if (msg['file_url'] != null) _buildFileAttachment(msg['file_url']),
           ],
@@ -201,16 +238,16 @@ class _DiskusiKelasPageState extends State<DiskusiKelasPage> {
     return InkWell(
       onTap: () async {
         final uri = Uri.parse(url);
-        if (await canLaunchUrl(uri)) {
-          await launchUrl(uri, mode: LaunchMode.externalApplication);
+        if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+          await launchUrl(uri, mode: LaunchMode.inAppWebView);
         }
       },
       child: Container(
-        margin: const EdgeInsets.only(top: 8),
-        padding: const EdgeInsets.all(8),
+        margin: EdgeInsets.only(top: 8.h),
+        padding: EdgeInsets.all(8.r),
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.5),
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(8.r),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -218,9 +255,9 @@ class _DiskusiKelasPageState extends State<DiskusiKelasPage> {
             Icon(
               Icons.attach_file,
               color: Theme.of(context).primaryColor,
-              size: 20,
+              size: 20.sp,
             ),
-            const SizedBox(width: 8),
+            SizedBox(width: 8.w),
             const Text(
               "Lihat File Lampiran",
               style: TextStyle(color: Colors.black87),
@@ -234,13 +271,13 @@ class _DiskusiKelasPageState extends State<DiskusiKelasPage> {
   Widget _buildMessageInput() {
     return SafeArea(
       child: Container(
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(8.r),
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
           boxShadow: [
             BoxShadow(
               offset: const Offset(0, -1),
-              blurRadius: 3,
+              blurRadius: 3.r,
               color: Colors.black.withOpacity(0.05),
             ),
           ],
@@ -260,32 +297,50 @@ class _DiskusiKelasPageState extends State<DiskusiKelasPage> {
                     decoration: InputDecoration(
                       hintText: "Ketik pesan...",
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(20.r),
                       ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                      ),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
                     ),
                     onSubmitted: (_) => _sendMessage(),
                   ),
                 ),
-                const SizedBox(width: 8),
+                SizedBox(width: 8.w),
                 IconButton.filled(
                   icon: const Icon(Icons.send),
+                  style: IconButton.styleFrom(
+                    backgroundColor: const Color(0xFFED832F),
+                  ),
                   onPressed: _sendMessage,
                 ),
               ],
             ),
             if (_currentUsername != null)
               Padding(
-                padding: const EdgeInsets.only(top: 8.0),
+                padding: EdgeInsets.only(top: 8.h),
                 child: SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFED832F),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.r),
+                      ),
+                    ),
                     onPressed: () {
-                      _navigateTo(context, const PeerAssessmentPage());
+                      _navigateTo(
+                        context,
+                        PeerAssessmentPage(onFinished: widget.onFinished),
+                      );
                     },
-                    child: const Text("Mulai Penilaian Teman Sebaya"),
+                    child: Text(
+                      "Mulai Penilaian Teman Sebaya",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.sp,
+                        fontFamily: 'Plus Jakarta Sans',
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ),
               ),

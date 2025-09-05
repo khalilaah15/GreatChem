@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class EbookPage extends StatefulWidget {
   const EbookPage({super.key});
@@ -36,10 +38,31 @@ class _EbookPageState extends State<EbookPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("E-Book")),
-      body: localPath != null
-          ? PDFView(filePath: localPath!)
-          : const Center(child: CircularProgressIndicator()),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        centerTitle: true,
+        title: Text(
+          'E-Book',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 24.sp,
+            fontFamily: 'Plus Jakarta Sans',
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+        backgroundColor: Color(0xFF6C432D),
+      ),
+      backgroundColor: Color(0xFFDFCFB5),
+      body:
+          // localPath != null
+          //     ? PDFView(filePath: localPath!)
+          //     : const Center(child: CircularProgressIndicator()),
+          SfPdfViewer.asset('assets/ebook/ebook.pdf'),
     );
   }
 }

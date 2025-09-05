@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:greatchem/pages/auth/login_page.dart';
+import 'package:greatchem/pages/auth/welcome_page.dart';
 import 'package:greatchem/pages/student/home_page.dart';
 import 'package:greatchem/pages/teacher/home_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -28,7 +29,6 @@ class AuthGate extends StatelessWidget {
     return StreamBuilder<AuthState>(
       stream: Supabase.instance.client.auth.onAuthStateChange,
       builder: (context, snapshot) {
-        // Saat masih loading
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
             body: Center(child: CircularProgressIndicator()),
@@ -40,10 +40,9 @@ class AuthGate extends StatelessWidget {
 
         if (session == null) {
           // Tidak ada session → ke LoginPage
-          return const LoginPage();
+          return WelcomeScreen();
         }
 
-        // Ada session → cek role
         return FutureBuilder<String?>(
           future: _getUserRole(),
           builder: (context, roleSnapshot) {
@@ -60,8 +59,7 @@ class AuthGate extends StatelessWidget {
             } else if (role == "guru") {
               return const GuruPage();
             } else {
-              // Kalau role tidak ditemukan → fallback ke LoginPage
-              return const LoginPage();
+              return WelcomeScreen();
             }
           },
         );

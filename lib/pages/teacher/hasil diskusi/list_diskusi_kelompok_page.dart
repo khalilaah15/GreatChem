@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:greatchem/models/chat_message.dart';
 import 'package:greatchem/pages/student/chemTalk/chat_room_page.dart';
+import 'package:greatchem/pages/teacher/hasil%20diskusi/chatroom_page.dart';
+import 'package:greatchem/pages/teacher/hasil%20diskusi/diskusi_kelompok_page.dart';
 import 'package:greatchem/service/chat_kelompok_supabase_service.dart';
 
 class ListDiskusiKelompokPage extends StatefulWidget {
@@ -22,7 +25,18 @@ class _ListDiskusiKelompokPageState extends State<ListDiskusiKelompokPage> {
       context: context,
       builder: (ctx) {
         return AlertDialog(
-          title: const Text("Buat Room Diskusi Baru"),
+          title: Text(
+            "Buat Room Diskusi Baru",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: const Color(0xFF6C432D),
+              fontSize: 20.sp,
+              fontFamily: 'Plus Jakarta Sans',
+              fontWeight: FontWeight.w800,
+              height: 1.12,
+            ),
+          ),
+          backgroundColor: const Color(0xFFFDFCEA),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -38,11 +52,23 @@ class _ListDiskusiKelompokPageState extends State<ListDiskusiKelompokPage> {
           ),
           actions: [
             TextButton(
-              child: const Text("Batal"),
+              child: const Text("Batal", style: TextStyle(color: Colors.black)),
               onPressed: () => Navigator.pop(ctx),
             ),
             ElevatedButton(
-              child: const Text("Buat"),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFED832F),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.r),
+                ),
+              ),
+              child: const Text(
+                "Buat",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
               onPressed: () async {
                 if (nameController.text.trim().isEmpty) return;
                 await _chatService.createRoom(
@@ -62,14 +88,25 @@ class _ListDiskusiKelompokPageState extends State<ListDiskusiKelompokPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Diskusi Kelompok"),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add_comment_outlined),
-            onPressed: _showCreateRoomDialog,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        centerTitle: true,
+        title: Text(
+          'ChemTalk',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 24.sp,
+            fontFamily: 'Plus Jakarta Sans',
+            fontWeight: FontWeight.w800,
           ),
-        ],
+        ),
+        backgroundColor: const Color(0xFF6C432D),
       ),
+      backgroundColor: const Color(0xFFDFCFB5),
       body: StreamBuilder<List<ChatRoom>>(
         stream: _chatService.getRoomsStream(),
         builder: (context, snapshot) {
@@ -82,12 +119,23 @@ class _ListDiskusiKelompokPageState extends State<ListDiskusiKelompokPage> {
             );
           }
           final rooms = snapshot.data!;
-          return ListView.builder(
+          return ListView.separated(
             itemCount: rooms.length,
+            separatorBuilder: (context, index) => Divider(
+              color: Colors.white,
+              thickness: 1,
+              indent: 72.w,
+              endIndent: 25.w,
+              height: 0,
+            ),
             itemBuilder: (context, index) {
               final room = rooms[index];
               return ListTile(
-                leading: const CircleAvatar(child: Icon(Icons.group)),
+                leading: CircleAvatar(
+                  radius: 24.r,
+                  backgroundColor: const Color(0xFFED832F),
+                  child: Icon(Icons.group, color: Colors.white, size: 28.r),
+                ),
                 title: Text(
                   room.name,
                   style: const TextStyle(fontWeight: FontWeight.bold),
@@ -100,12 +148,19 @@ class _ListDiskusiKelompokPageState extends State<ListDiskusiKelompokPage> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => ChatRoomPage(room: room)),
+                    MaterialPageRoute(builder: (_) => ChatRoomGuruPage(room: room)),
                   );
                 },
               );
             },
           );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color(0xFFED832F),
+        child: const Icon(Icons.add, color: Colors.white),
+        onPressed: () {
+          _showCreateRoomDialog();
         },
       ),
     );

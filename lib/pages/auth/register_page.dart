@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:greatchem/auth/auth_service.dart';
 import 'package:greatchem/pages/auth/login_page.dart';
-import 'package:greatchem/pages/auth/profile_page.dart';
 import 'package:greatchem/pages/student/home_page.dart';
 import 'package:greatchem/pages/teacher/home_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -16,7 +16,6 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final authService = AuthService();
 
-  // Controllers
   final _nameController = TextEditingController();
   final _schoolController = TextEditingController();
   final _nisnNipController = TextEditingController();
@@ -24,7 +23,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
-  String role = "siswa"; // default role
+  String role = "siswa";
 
   Future<void> signUp() async {
     final name = _nameController.text.trim();
@@ -45,9 +44,7 @@ class _RegisterPageState extends State<RegisterPage> {
       final response = await Supabase.instance.client.auth.signUp(
         email: email,
         password: password,
-        data: {
-          'full_name': name,
-        },
+        data: {'full_name': name},
       );
 
       final user = response.user;
@@ -84,66 +81,319 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
+  bool _obscurePassword = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Register")),
+      backgroundColor: Color(0xFFC2A180),
       body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
-            TextField(
-              controller: _nameController,
-              decoration: const InputDecoration(labelText: "Nama"),
-            ),
-            TextField(
-              controller: _schoolController,
-              decoration: const InputDecoration(labelText: "Nama Sekolah"),
-            ),
-            TextField(
-              controller: _nisnNipController,
-              decoration: const InputDecoration(labelText: "NISN / NIP"),
-            ),
-            TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(labelText: "Email"),
-            ),
-            TextField(
-              controller: _passwordController,
-              obscureText: true,
-              decoration: const InputDecoration(labelText: "Password"),
-            ),
-            TextField(
-              controller: _confirmPasswordController,
-              obscureText: true,
-              decoration: const InputDecoration(labelText: "Confirm Password"),
-            ),
-            const SizedBox(height: 12),
-            DropdownButtonFormField<String>(
-              value: role,
-              decoration: const InputDecoration(labelText: "Masuk Sebagai"),
-              items: const [
-                DropdownMenuItem(value: "siswa", child: Text("Siswa")),
-                DropdownMenuItem(value: "guru", child: Text("Guru")),
-              ],
-              onChanged: (value) {
-                setState(() {
-                  role = value!;
-                });
-              },
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(onPressed: signUp, child: const Text("Sign Up")),
-            SizedBox(height: 15),
-            GestureDetector(
-              onTap:
-                  () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const LoginPage()),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(height: 20.h),
+              Image.asset('assets/images/logo_crop.png', height: 100.h),
+              SizedBox(height: 15.h),
+              Text(
+                'VIREACT',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 30.sp,
+                  fontFamily: 'Lato',
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+              SizedBox(height: 20.h),
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.all(25.r),
+                decoration: BoxDecoration(
+                  color: Color(0xFF6C432D),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(50.r),
+                    topRight: Radius.circular(50.r),
                   ),
-              child: const Text('Login'),
-            ),
-          ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 10.h),
+                    Text(
+                      'Nama',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    SizedBox(height: 8.h),
+                    TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Masukkan Nama Lengkap',
+                        filled: true,
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 0,
+                          horizontal: 16.w,
+                        ),
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.r),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                      controller: _nameController,
+                    ),
+                    SizedBox(height: 10.h),
+                    Text(
+                      'Nama Sekolah',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    SizedBox(height: 8.h),
+                    TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Masukkan Nama Sekolah',
+                        filled: true,
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 0,
+                          horizontal: 16.w,
+                        ),
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.r),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                      controller: _schoolController,
+                    ),
+                    SizedBox(height: 10.h),
+                    Text(
+                      'NISN/NIP',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    SizedBox(height: 8.h),
+                    TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Masukkan NISN/NIP',
+                        filled: true,
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 0,
+                          horizontal: 16.w,
+                        ),
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.r),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                      controller: _nisnNipController,
+                    ),
+                    SizedBox(height: 10.h),
+                    Text(
+                      'Email',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    SizedBox(height: 8.h),
+                    TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Masukkan Email',
+                        filled: true,
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 12.h,
+                          horizontal: 16.w,
+                        ),
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.r),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                      controller: _emailController,
+                    ),
+                    SizedBox(height: 10.h),
+                    Text(
+                      'Password',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    SizedBox(height: 8.h),
+                    TextField(
+                      controller: _passwordController,
+                      obscureText: _obscurePassword,
+                      decoration: InputDecoration(
+                        hintText: 'Masukkan Password',
+                        filled: true,
+                        fillColor: Colors.white,
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 12.h,
+                          horizontal: 16.w,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.r),
+                          borderSide: BorderSide.none,
+                        ),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscurePassword
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscurePassword = !_obscurePassword;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10.h),
+                    Text(
+                      'Confirm Password',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    SizedBox(height: 8.h),
+                    TextField(
+                      controller: _confirmPasswordController,
+                      obscureText: _obscurePassword,
+                      decoration: InputDecoration(
+                        hintText: 'Masukkan Confirm Password',
+                        filled: true,
+                        fillColor: Colors.white,
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 12.h,
+                          horizontal: 16.w,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.r),
+                          borderSide: BorderSide.none,
+                        ),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscurePassword
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscurePassword = !_obscurePassword;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10.h),
+                    Text(
+                      'Masuk Sebagai',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    SizedBox(height: 6.h),
+                    Container(
+                      width: double.infinity,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 16.w, vertical: 0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(25.r),
+                      ),
+                      child: DropdownButtonFormField<String>(
+                        value: role,
+                        items: const [
+                          DropdownMenuItem(
+                            value: "siswa",
+                            child: Text("Siswa"),
+                          ),
+                          DropdownMenuItem(value: "guru", child: Text("Guru")),
+                        ],
+                        onChanged: (value) {
+                          setState(() {
+                            role = value!;
+                          });
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 25.h),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50.h,
+                      child: ElevatedButton(
+                        onPressed: signUp,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xFFED832F),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25.r),
+                          ),
+                        ),
+                        child: Text(
+                          'Sign Up',
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 15.h),
+                    Center(
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoginPage(),
+                            ),
+                          );
+                        },
+                        child: RichText(
+                          text: TextSpan(
+                            text: 'Sudah punya akun? ',
+                            style:
+                                TextStyle(color: Colors.white70, fontSize: 14.sp),
+                            children: [
+                              TextSpan(
+                                text: 'Masuk',
+                                style: TextStyle(
+                                  fontSize: 16.sp,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20.h),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

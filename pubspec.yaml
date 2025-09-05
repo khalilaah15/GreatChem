@@ -42,8 +42,11 @@ dependencies:
   flutter_math_fork: ^0.7.4
   flutter_tex: ^5.1.10
   image_picker: ^1.2.0
+  flutter_screenutil: ^5.9.3
+  syncfusion_flutter_pdfviewer: ^30.2.7
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.13.1
   flutter_test:
     sdk: flutter
 
@@ -53,6 +56,11 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logo_crop.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -65,6 +73,39 @@ flutter:
   uses-material-design: true
   assets:
   - assets/ebook/ebook.pdf
+  - assets/images/logo_british.png
+  - assets/images/logo_crop.png
+  - assets/images/banner.png
+  - assets/images/avatar.png 
+  - assets/images/chemlearn.png
+  - assets/images/chemtry.png
+  - assets/images/chemtalk.png
+  - assets/images/chemtrak.png
+  - assets/images/pattern.png 
+  - assets/images/book.png
+  - assets/images/background_bottom.svg
+  - assets/images/masalah1_icon.png
+  - assets/images/masalah2_icon.png
+  - assets/images/masalah3_icon.png
+  - assets/images/masalah4_icon.png
+  - assets/images/masalah_1.png
+  - assets/images/masalah_2.png
+  - assets/images/masalah_3.png
+  - assets/images/masalah_4.png
+  - assets/images/AI.svg
+  - assets/images/ebook.svg
+  - assets/images/glab.svg
+  - assets/images/ChemTry.svg
+  - assets/images/chemtry_icon.png
+  - assets/images/track.png
+  - assets/images/track_back.png
+  - assets/images/bottom.png
+  - assets/images/capaian.png
+  - assets/images/evaluasi.png
+  - assets/images/latihan.png
+  - assets/images/diskusi.png
+  - assets/images/bookleft.png
+  - assets/images/splahscreen.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
