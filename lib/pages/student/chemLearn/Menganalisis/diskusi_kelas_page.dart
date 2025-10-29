@@ -105,7 +105,7 @@ class _DiskusiKelasPageState extends State<DiskusiKelasPage> {
         ),
         centerTitle: true,
         title: Text(
-          'Menganalisis & Mengevaluasi Proses Pemecahan Masalah',
+          'Kajian Reaksi',
           style: TextStyle(
             color: Colors.white,
             fontSize: 24.sp,
@@ -113,9 +113,24 @@ class _DiskusiKelasPageState extends State<DiskusiKelasPage> {
             fontWeight: FontWeight.w800,
           ),
         ),
-        backgroundColor: const Color(0xFF6C432D),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.arrow_forward_ios, color: Colors.white),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PeerAssessmentPage(onFinished: () {}),
+                ),
+              );
+            },
+          ),
+          SizedBox(width: 5.w),
+        ],
+
+        backgroundColor: const Color(0xFF4F200D),
       ),
-      backgroundColor: const Color(0xFFDFCFB5),
+      backgroundColor: const Color(0xFFB07C48),
       body: Column(
         children: [
           Container(
@@ -124,7 +139,7 @@ class _DiskusiKelasPageState extends State<DiskusiKelasPage> {
             width: double.infinity,
             clipBehavior: Clip.antiAlias,
             decoration: ShapeDecoration(
-              color: const Color(0xFFFFDC7C),
+              color: const Color(0xFFF9EF96),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.r),
               ),
@@ -199,7 +214,7 @@ class _DiskusiKelasPageState extends State<DiskusiKelasPage> {
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
         margin: EdgeInsets.symmetric(vertical: 5.h, horizontal: 8.w),
         decoration: BoxDecoration(
-          color: isMe ? const Color(0xFFFFDC7C) : Colors.white,
+          color: isMe ? const Color(0xFFF9EF96) : Colors.white,
           borderRadius: bubbleRadius,
           boxShadow: [
             BoxShadow(
@@ -308,7 +323,7 @@ class _DiskusiKelasPageState extends State<DiskusiKelasPage> {
                 IconButton.filled(
                   icon: const Icon(Icons.send),
                   style: IconButton.styleFrom(
-                    backgroundColor: const Color(0xFFED832F),
+                    backgroundColor: const Color(0xFFFF9A00),
                   ),
                   onPressed: _sendMessage,
                 ),
@@ -321,7 +336,7 @@ class _DiskusiKelasPageState extends State<DiskusiKelasPage> {
                   width: double.infinity,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFED832F),
+                      backgroundColor: const Color(0xFFFF9A00),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25.r),
                       ),

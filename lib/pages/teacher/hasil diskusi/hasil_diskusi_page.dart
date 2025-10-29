@@ -27,14 +27,14 @@ class HasilDiskusiPage extends StatelessWidget {
           'Hasil Diskusi',
           style: TextStyle(
             color: Colors.white,
-            fontSize: 24.sp, // Diubah
+            fontSize: 24.sp,
             fontFamily: 'Plus Jakarta Sans',
             fontWeight: FontWeight.w800,
           ),
         ),
-        backgroundColor: const Color(0xFF6C432D),
+        backgroundColor: const Color(0xFF4F200D),
       ),
-      backgroundColor: const Color(0xFFDFCFB5),
+      backgroundColor: const Color(0xFFB07C48),
       body: Column(
         children: [
           const Spacer(),
@@ -94,7 +94,7 @@ class HasilDiskusiPage extends StatelessWidget {
         margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 24.w), // Diubah
         padding: EdgeInsets.all(6.r), // Diubah
         decoration: BoxDecoration(
-          color: const Color(0xFFC2A180),
+          color: const Color(0xFFFFD93D),
           borderRadius: BorderRadius.circular(50.r), // Diubah
           border: Border.all(color: const Color(0xFF6E4B34), width: 1.w), // Diubah
         ),
@@ -103,7 +103,7 @@ class HasilDiskusiPage extends StatelessWidget {
             Container(
               padding: EdgeInsets.all(12.r), // Diubah
               decoration: const BoxDecoration(
-                color: Color(0xFF4a3826),
+                color: Color(0xFF4F200D),
                 shape: BoxShape.circle,
               ),
               child: Icon(iconData,
@@ -114,9 +114,9 @@ class HasilDiskusiPage extends StatelessWidget {
               child: Text(
                 text,
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Color(0xFF4F200D),
                   fontWeight: FontWeight.bold,
-                  fontSize: 14.sp, // Diubah
+                  fontSize: 14.sp,
                 ),
               ),
             ),

@@ -2,11 +2,14 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:greatchem/pages/student/chemLearn/Menganalisis/diskusi_kelas_page.dart';
 import 'package:greatchem/service/tugas_supabase_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MengembangkanPage extends StatefulWidget {
-  const MengembangkanPage({super.key});
+  final VoidCallback onFinished;
+  const MengembangkanPage({Key? key, required this.onFinished})
+    : super(key: key);
 
   @override
   State<MengembangkanPage> createState() => _MengembangkanPageState();
@@ -111,6 +114,7 @@ class _MengembangkanPageState extends State<MengembangkanPage> {
 
                     await service.uploadTugas(namaController.text, pickedFile!);
                     Navigator.pop(context);
+                    widget.onFinished();
                     _loadTugas();
                   },
                   child: const Text(
@@ -150,7 +154,7 @@ class _MengembangkanPageState extends State<MengembangkanPage> {
         ),
         centerTitle: true,
         title: Text(
-          'Mengembangkan dan Menyajikan Hasil Karya',
+          'Sintesis Reaksi',
           style: TextStyle(
             color: Colors.white,
             fontSize: 24.sp,
@@ -158,139 +162,167 @@ class _MengembangkanPageState extends State<MengembangkanPage> {
             fontWeight: FontWeight.w800,
           ),
         ),
-        backgroundColor: const Color(0xFF6C432D),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.arrow_forward_ios, color: Colors.white),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DiskusiKelasPage(onFinished: () {}),
+                ),
+              );
+            },
+          ),
+          SizedBox(width: 5.w),
+        ],
+        backgroundColor: const Color(0xFF4F200D),
       ),
-      backgroundColor: const Color(0xFFDFCFB5),
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(height: 30.h),
-            Container(
-              padding: EdgeInsets.all(16.r),
+      backgroundColor: const Color(0xFFB07C48),
+      body: Stack(
+        children: [
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Image.asset(
+              'assets/images/bottom.png',
+              fit: BoxFit.cover,
               width: double.infinity,
-              margin: EdgeInsets.symmetric(horizontal: 20.w),
-              clipBehavior: Clip.antiAlias,
-              decoration: ShapeDecoration(
-                color: const Color(0xFFFFDC7C),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.r),
-                ),
-                shadows: [
-                  BoxShadow(
-                    color: const Color(0x3F000000),
-                    blurRadius: 4.r,
-                    offset: const Offset(0, 0),
-                    spreadRadius: 0,
-                  ),
-                ],
-              ),
-              child: Text(
-                'Bersama kelompokmu sajikan hasil diskusi secara kolaboratif melalui kegiatan presentasi',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: const Color(0xFF6C432D),
-                  fontSize: 14.sp,
-                  fontFamily: 'Plus Jakarta Sans',
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
             ),
-            SizedBox(height: 10.h),
-            buildStyledButton(
-              icon: Icons.send,
-              iconData: Icons.document_scanner_rounded,
-              text: 'Upload Tugas',
-              onTap: _showUploadDialog,
-            ),
-            Expanded(
-              child:
-                  _tugasList.isEmpty
-                      ? const Center(child: Text("Belum ada tugas dikumpulkan"))
-                      : SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 20.w),
-                          padding: EdgeInsets.all(15.r),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12.r),
-                            border: Border.all(
-                              color: const Color(0xFFD6C7B0),
-                              width: 1.w,
-                            ),
+          ),
+          Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(height: 30.h),
+                      Container(
+                        padding: EdgeInsets.all(16.r),
+                        width: double.infinity,
+                        margin: EdgeInsets.symmetric(horizontal: 20.w),
+                        clipBehavior: Clip.antiAlias,
+                        decoration: ShapeDecoration(
+                          color: const Color(0xFFF9EF96),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.r),
                           ),
-                          child: DataTable(
-                            columnSpacing: 50.w,
-                            headingRowHeight: 48.h,
-                            dataRowHeight: 56.h,
-                            headingRowColor: MaterialStateProperty.all(
-                              const Color(0xFFC49C75),
+                          shadows: [
+                            BoxShadow(
+                              color: const Color(0x3F000000),
+                              blurRadius: 4.r,
                             ),
-                            dataRowColor: MaterialStateProperty.all(
-                              const Color(0xFFF8F6E9),
-                            ),
-                            border: TableBorder.all(
-                              color: const Color(0xFFDFCFB5),
-                              width: 1.w,
-                            ),
-                            columns: const [
-                              DataColumn(
-                                label: Text(
-                                  "Kelompok",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                              DataColumn(
-                                label: Text(
-                                  textAlign: TextAlign.center,
-                                  "Berkas Tugas",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ],
-                            rows:
-                                _tugasList.map((item) {
-                                  return DataRow(
-                                    cells: [
-                                      DataCell(
-                                        Text(
-                                          textAlign: TextAlign.center,
-                                          item['nama_kelompok'] ?? '',
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            color: Color(0xFF5A3D2B),
-                                          ),
-                                        ),
-                                      ),
-                                      DataCell(
-                                        IconButton(
-                                          icon: Icon(
-                                            Icons.picture_as_pdf,
-                                            color: Colors.red,
-                                            size: 28.sp,
-                                          ),
-                                          onPressed:
-                                              () => _openFile(item['file_url']),
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                }).toList(),
+                          ],
+                        ),
+                        child: Text(
+                          'Bersama kelompokmu sajikan hasil diskusi secara kolaboratif melalui kegiatan presentasi',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: const Color(0xFF6C432D),
+                            fontSize: 14.sp,
+                            fontFamily: 'Plus Jakarta Sans',
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ),
-            ),
-            const Spacer(),
-            Image.asset('assets/images/bottom.png', fit: BoxFit.cover),
-          ],
-        ),
+                      SizedBox(height: 10.h),
+
+                      buildStyledButton(
+                        icon: Icons.send,
+                        iconData: Icons.document_scanner_rounded,
+                        text: 'Upload Tugas',
+                        onTap: _showUploadDialog,
+                      ),
+                      SizedBox(height: 16.h),
+
+                      // Tabel tugas
+                      _tugasList.isEmpty
+                          ? const Center(
+                            child: Padding(
+                              padding: EdgeInsets.all(16.0),
+                              child: Text("Belum ada tugas dikumpulkan"),
+                            ),
+                          )
+                          : SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12.r),
+                              child: DataTable(
+                                columnSpacing: 50.w,
+                                headingRowHeight: 48.h,
+                                dataRowHeight: 56.h,
+                                headingRowColor: MaterialStateProperty.all(
+                                  const Color(0xFFFFD93D),
+                                ),
+                                dataRowColor: MaterialStateProperty.all(
+                                  const Color(0xFFF8F6E9),
+                                ),
+                                border: TableBorder.all(
+                                  color: const Color(0xFFFFD93D),
+                                  width: 1.w,
+                                ),
+                                columns: const [
+                                  DataColumn(
+                                    label: Text(
+                                      "Kelompok",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xFF5A3D2B),
+                                      ),
+                                    ),
+                                  ),
+                                  DataColumn(
+                                    label: Text(
+                                      "Berkas Tugas",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xFF5A3D2B),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                                rows:
+                                    _tugasList.map((item) {
+                                      return DataRow(
+                                        cells: [
+                                          DataCell(
+                                            Text(
+                                              item['nama_kelompok'] ?? '',
+                                              textAlign: TextAlign.center,
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                color: Color(0xFF5A3D2B),
+                                              ),
+                                            ),
+                                          ),
+                                          DataCell(
+                                            IconButton(
+                                              icon: Icon(
+                                                Icons.picture_as_pdf,
+                                                color: Colors.red,
+                                                size: 28.sp,
+                                              ),
+                                              onPressed:
+                                                  () => _openFile(
+                                                    item['file_url'],
+                                                  ),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    }).toList(),
+                              ),
+                            ),
+                          ),
+                      SizedBox(height: 100.h),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -307,39 +339,35 @@ class _MengembangkanPageState extends State<MengembangkanPage> {
         margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 24.w),
         padding: EdgeInsets.all(6.r),
         decoration: BoxDecoration(
-          color: const Color(0xFFC2A180),
+          color: const Color(0xFFFFD93D),
           borderRadius: BorderRadius.circular(50.r),
           border: Border.all(color: const Color(0xFF6E4B34), width: 1.w),
         ),
         child: Row(
           children: [
             Container(
-              padding: EdgeInsets.all(6.r),
+              padding: EdgeInsets.all(12.r),
               decoration: const BoxDecoration(
-                color: Color(0xFF4a3826),
+                color: Color(0xFFA34600),
                 shape: BoxShape.circle,
               ),
-              child: Icon(
-                iconData,
-                color: const Color(0xFFfdd835),
-                size: 28.sp,
-              ),
+              child: Icon(iconData, color: Colors.white, size: 28.sp),
             ),
-            SizedBox(width: 8.w),
+            SizedBox(width: 16.w),
             Expanded(
               child: Text(
                 text,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF020202),
+                  fontWeight: FontWeight.w700,
                   fontSize: 16.sp,
                 ),
               ),
             ),
             Padding(
               padding: EdgeInsets.only(right: 16.w),
-              child: Icon(icon, color: Colors.white, size: 30.sp),
+              child: Icon(icon, color: Color(0xFFA34600), size: 40.sp),
             ),
           ],
         ),

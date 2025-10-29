@@ -115,9 +115,9 @@ class _TargetCapaianGuruPageState extends State<TargetCapaianGuruPage> {
             fontWeight: FontWeight.w800,
           ),
         ),
-        backgroundColor: const Color(0xFF6C432D),
+        backgroundColor: const Color(0xFF4F200D),
       ),
-      backgroundColor: const Color(0xFFDFCFB5),
+      backgroundColor: const Color(0xFFB07C48),
       body: Column(
         children: [
           Expanded(

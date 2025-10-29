@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:greatchem/models/chat_message.dart';
+import 'package:greatchem/pages/student/chemTrack/target_capaian_siswa.dart';
 import 'package:greatchem/service/chat_kelompok_supabase_service.dart';
 import 'chat_room_page.dart';
 
@@ -102,7 +103,21 @@ class _RoomListPageState extends State<RoomListPage> {
             fontWeight: FontWeight.w800,
           ),
         ),
-        backgroundColor: const Color(0xFF6C432D),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.arrow_forward_ios, color: Colors.white),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const TargetCapaianSiswaPage(),
+                ),
+              );
+            },
+          ),
+          SizedBox(width: 5.w),
+        ],
+        backgroundColor: const Color(0xFF4F200D),
       ),
       backgroundColor: const Color(0xFFDFCFB5),
       body: StreamBuilder<List<ChatRoom>>(
@@ -118,6 +133,7 @@ class _RoomListPageState extends State<RoomListPage> {
           }
           final rooms = snapshot.data!;
           return ListView.separated(
+            padding: EdgeInsets.all(10.r),
             itemCount: rooms.length,
             separatorBuilder:
                 (context, index) => Divider(

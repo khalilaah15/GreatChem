@@ -7,13 +7,13 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFC2A180),
+      backgroundColor: Color(0xFFB07C48),
       body: SafeArea(
         child: Column(
           children: [
             Spacer(flex: 2),
             Image.asset('assets/images/logo_crop.png', height: 150.h),
-            SizedBox(height: 15.h),
+            SizedBox(height: 8.h),
             Text(
               'VIREACT',
               textAlign: TextAlign.center,
@@ -28,7 +28,7 @@ class WelcomeScreen extends StatelessWidget {
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Color(0xFF6C432D),
+                color: Color(0xFF4F200D),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(50.r),
                   topRight: Radius.circular(50.r),

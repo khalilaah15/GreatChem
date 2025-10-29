@@ -33,9 +33,9 @@ class EvaluasiPage extends StatelessWidget {
             fontWeight: FontWeight.w800,
           ),
         ),
-        backgroundColor: const Color(0xFF6C432D),
+        backgroundColor: const Color(0xFF4F200D),
       ),
-      backgroundColor: const Color(0xFFDFCFB5),
+      backgroundColor: const Color(0xFFB07C48),
       body: Column(
         children: [
           const Spacer(),
@@ -45,7 +45,7 @@ class EvaluasiPage extends StatelessWidget {
             margin: EdgeInsets.symmetric(horizontal: 20.w),
             clipBehavior: Clip.antiAlias,
             decoration: ShapeDecoration(
-              color: const Color(0xFFFFDC7C),
+              color: const Color(0xFFF9EF96),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.r),
               ),
@@ -92,8 +92,11 @@ class EvaluasiPage extends StatelessWidget {
             },
           ),
           const Spacer(),
-          Image.asset('assets/images/bottom.png',
-              fit: BoxFit.cover, width: double.infinity),
+          Image.asset(
+            'assets/images/bottom.png',
+            fit: BoxFit.cover,
+            width: double.infinity,
+          ),
         ],
       ),
     );
@@ -111,7 +114,7 @@ class EvaluasiPage extends StatelessWidget {
         margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 24.w),
         padding: EdgeInsets.all(6.r),
         decoration: BoxDecoration(
-          color: const Color(0xFFC2A180),
+          color: const Color(0xFFFFD93D),
           borderRadius: BorderRadius.circular(50.r),
           border: Border.all(color: const Color(0xFF6E4B34), width: 1.w),
         ),
@@ -120,11 +123,14 @@ class EvaluasiPage extends StatelessWidget {
             Container(
               padding: EdgeInsets.all(12.r),
               decoration: const BoxDecoration(
-                color: Color(0xFF4a3826),
+                color: Color(0xFFA34600),
                 shape: BoxShape.circle,
               ),
-              child:
-                  Icon(iconData, color: const Color(0xFFfdd835), size: 28.sp),
+              child: Icon(
+                iconData,
+                color: const Color(0xFFfdd835),
+                size: 28.sp,
+              ),
             ),
             SizedBox(width: 16.w),
             Expanded(
@@ -132,7 +138,7 @@ class EvaluasiPage extends StatelessWidget {
                 text,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Color(0xFF4F200D),
                   fontWeight: FontWeight.bold,
                   fontSize: 16.sp,
                 ),
@@ -140,7 +146,7 @@ class EvaluasiPage extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.only(right: 16.w),
-              child: Icon(icon, color: Colors.white, size: 40.sp),
+              child: Icon(icon, color: Color(0xFFA34600), size: 40.sp),
             ),
           ],
         ),

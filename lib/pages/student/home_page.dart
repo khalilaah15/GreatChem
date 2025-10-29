@@ -38,42 +38,36 @@ class _SiswaPageState extends State<SiswaPage> {
       if (mounted) {
         setState(() {
           fullName = response['name'];
-          // Ambil level, jika null (data lama), default ke 1
           _unlockedLevel = response['unlocked_level'] ?? 1;
           isLoading = false;
         });
       }
     }
   }
-  // Di dalam _SiswaPageState
 
   Future<void> _unlockNextLevel() async {
     final user = Supabase.instance.client.auth.currentUser;
     if (user == null) return;
 
-    // Level baru adalah level saat ini + 1
     final newLevel = _unlockedLevel + 1;
 
     try {
-      // Update database
       await Supabase.instance.client
           .from('profiles')
           .update({'unlocked_level': newLevel})
           .eq('id', user.id);
 
-      // Perbarui state di aplikasi agar UI langsung berubah
       if (mounted) {
         setState(() {
           _unlockedLevel = newLevel;
         });
-
-        // Tampilkan dialog atau pesan selamat
         showDialog(
           context: context,
           builder:
               (context) => AlertDialog(
                 title: Text('Selamat!'),
-                content: Text('Anda telah membuka Bagian $newLevel!'),
+                content: Text('Anda telah membuka Bagian selanjutnya'),
+                //$newLevel!
                 actions: [
                   TextButton(
                     onPressed: () => Navigator.pop(context),
@@ -83,9 +77,7 @@ class _SiswaPageState extends State<SiswaPage> {
               ),
         );
       }
-    } catch (e) {
-      // Handle error jika gagal update
-    }
+    } catch (e) {}
   }
 
   @override
@@ -97,7 +89,7 @@ class _SiswaPageState extends State<SiswaPage> {
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                color: const Color(0xFF6C432D),
+                color: const Color(0xFF4F200D),
                 image: DecorationImage(
                   image: AssetImage('assets/images/pattern.png'),
                   fit: BoxFit.cover,
@@ -204,7 +196,7 @@ class _SiswaPageState extends State<SiswaPage> {
                       width: double.infinity,
                       padding: EdgeInsets.all(25.r),
                       decoration: BoxDecoration(
-                        color: Color(0xFFC2A180),
+                        color: Color(0xFFB07C48),
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(50.r),
                           topRight: Radius.circular(50.r),
@@ -221,7 +213,7 @@ class _SiswaPageState extends State<SiswaPage> {
                             subtitle: 'Ruang Belajar',
                             section: 'Bagian 1',
                             iconPath: 'assets/images/chemlearn.png',
-                            requiredLevel: 1, // Level yang dibutuhkan
+                            requiredLevel: 1,
                             currentUserLevel: _unlockedLevel,
                             onTap:
                                 () => Navigator.push(
@@ -241,7 +233,7 @@ class _SiswaPageState extends State<SiswaPage> {
                             subtitle: 'Latihan Soal',
                             section: 'Bagian 2',
                             iconPath: 'assets/images/chemtry.png',
-                            requiredLevel: 2,
+                            requiredLevel: 6,
                             currentUserLevel: _unlockedLevel,
                             onTap:
                                 () => Navigator.push(
@@ -261,7 +253,7 @@ class _SiswaPageState extends State<SiswaPage> {
                             subtitle: 'Ruang Diskusi',
                             section: 'Bagian 3',
                             iconPath: 'assets/images/chemtalk.png',
-                            requiredLevel: 3,
+                            requiredLevel: 7,
                             currentUserLevel: _unlockedLevel,
                             onTap:
                                 () => Navigator.push(
@@ -281,7 +273,7 @@ class _SiswaPageState extends State<SiswaPage> {
                             subtitle: 'Pencapaian Hasil Belajar',
                             section: 'Bagian 4',
                             iconPath: 'assets/images/chemtrak.png',
-                            requiredLevel: 4,
+                            requiredLevel: 8,
                             currentUserLevel: _unlockedLevel,
                             onTap:
                                 () => Navigator.push(
@@ -319,7 +311,6 @@ class _SiswaPageState extends State<SiswaPage> {
   }) {
     final bool isLocked = currentUserLevel < requiredLevel;
 
-    // Widget dasar card
     final cardContent = Container(
       width: double.infinity,
       height: 90.h,
@@ -336,7 +327,6 @@ class _SiswaPageState extends State<SiswaPage> {
       ),
       child: Row(
         children: [
-          // Icon Section (tetap sama)
           Container(
             width: 90.w,
             height: 90.h,
@@ -348,7 +338,6 @@ class _SiswaPageState extends State<SiswaPage> {
               ),
             ),
           ),
-          // Content Section (tetap sama)
           Expanded(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -386,7 +375,6 @@ class _SiswaPageState extends State<SiswaPage> {
               ),
             ),
           ),
-          // Arrow Icon
           Padding(
             padding: EdgeInsets.only(right: 16.w),
             child: Icon(
@@ -398,8 +386,6 @@ class _SiswaPageState extends State<SiswaPage> {
         ],
       ),
     );
-
-    // Widget overlay saat terkunci
     final lockOverlay = Container(
       width: double.infinity,
       height: 90.h,
@@ -407,11 +393,7 @@ class _SiswaPageState extends State<SiswaPage> {
         color: Colors.black.withOpacity(0.4), // Warna gelap transparan
         borderRadius: BorderRadius.circular(16.r),
       ),
-      child: Icon(
-        Icons.lock,
-        color: Colors.white,
-        size: 32.sp,
-      ), // Ikon gembok di tengah
+      child: Icon(Icons.lock, color: Colors.white, size: 32.sp),
     );
 
     return GestureDetector(
@@ -429,13 +411,7 @@ class _SiswaPageState extends State<SiswaPage> {
               : onTap,
       child: Stack(
         alignment: Alignment.center,
-        children: [
-          // Layer 1: Konten asli card
-          cardContent,
-
-          // Layer 2: Overlay, HANYA ditampilkan jika isLocked bernilai true
-          if (isLocked) lockOverlay,
-        ],
+        children: [cardContent, if (isLocked) lockOverlay],
       ),
     );
   }

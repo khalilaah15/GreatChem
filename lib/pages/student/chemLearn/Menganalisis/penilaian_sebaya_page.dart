@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:greatchem/pages/student/chemTry/chemtry_page.dart';
+import 'package:greatchem/pages/student/chemTry/start_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PeerAssessmentPage extends StatefulWidget {
@@ -13,6 +15,7 @@ class PeerAssessmentPage extends StatefulWidget {
 
 class _PeerAssessmentPageState extends State<PeerAssessmentPage> {
   final _supabase = Supabase.instance.client;
+  bool _hasSubmittedOnce = false;
 
   bool _isLoading = true;
   String? _selectedStudentId;
@@ -56,10 +59,9 @@ class _PeerAssessmentPageState extends State<PeerAssessmentPage> {
     }
   }
 
-  // Cek apakah siswa saat ini sudah pernah menilai siswa yang dipilih
   Future<void> _checkAssessmentStatus(String assessedUserId) async {
     setState(() {
-      _hasAlreadyAssessed = true; // Asumsikan sudah, untuk loading state
+      _hasAlreadyAssessed = true;
     });
     try {
       final userId = _supabase.auth.currentUser!.id;
@@ -80,21 +82,17 @@ class _PeerAssessmentPageState extends State<PeerAssessmentPage> {
 
   // Kirim data penilaian ke Supabase
   Future<void> _submitAssessment() async {
-    // Validasi: pastikan semua pertanyaan sudah dinilai
     if (_scores.length != _questions.length) {
       _showErrorSnackBar('Harap isi semua pertanyaan terlebih dahulu.');
       return;
     }
 
-    setState(() {
-      _isSubmitting = true;
-    });
+    setState(() => _isSubmitting = true);
 
     try {
       final userId = _supabase.auth.currentUser!.id;
       final totalScore = _scores.values.reduce((a, b) => a + b).toInt();
 
-      // Mengubah skor dari Map<int, double> ke Map<String, int> untuk JSONB
       final scoresForJson = _scores.map(
         (key, value) => MapEntry(key.toString(), value.toInt()),
       );
@@ -112,9 +110,12 @@ class _PeerAssessmentPageState extends State<PeerAssessmentPage> {
           backgroundColor: Colors.green,
         ),
       );
-      widget.onFinished();
 
-      // Reset state setelah berhasil
+      if (!_hasSubmittedOnce) {
+        widget.onFinished();
+        _hasSubmittedOnce = true;
+      }
+
       setState(() {
         _selectedStudentId = null;
         _scores.clear();
@@ -125,9 +126,7 @@ class _PeerAssessmentPageState extends State<PeerAssessmentPage> {
         'Gagal mengirim penilaian. Anda mungkin sudah pernah menilai siswa ini.',
       );
     } finally {
-      setState(() {
-        _isSubmitting = false;
-      });
+      setState(() => _isSubmitting = false);
     }
   }
 
@@ -157,9 +156,23 @@ class _PeerAssessmentPageState extends State<PeerAssessmentPage> {
             fontWeight: FontWeight.w800,
           ),
         ),
-        backgroundColor: const Color(0xFF6C432D),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.arrow_forward_ios, color: Colors.white),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => StartPage(onFinished: () {}),
+                ),
+              );
+            },
+          ),
+          SizedBox(width: 5.w),
+        ],
+        backgroundColor: const Color(0xFF4F200D),
       ),
-      backgroundColor: const Color(0xFFDFCFB5),
+      backgroundColor: const Color(0xFFB07C48),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -169,7 +182,7 @@ class _PeerAssessmentPageState extends State<PeerAssessmentPage> {
               width: double.infinity,
               clipBehavior: Clip.antiAlias,
               decoration: ShapeDecoration(
-                color: const Color(0xFFFFDC7C),
+                color: const Color(0xFFF9EF96),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.r),
                 ),
@@ -263,7 +276,7 @@ class _PeerAssessmentPageState extends State<PeerAssessmentPage> {
         Text(
           'Berikan penilaian (1-5) untuk setiap pertanyaan:',
           style: TextStyle(
-            color: const Color(0xFF6C432D),
+            color: Colors.white,
             fontSize: 16.sp,
             fontFamily: 'Plus Jakarta Sans',
             fontWeight: FontWeight.w700,
@@ -286,6 +299,7 @@ class _PeerAssessmentPageState extends State<PeerAssessmentPage> {
           child: ElevatedButton(
             onPressed: _isSubmitting ? null : _submitAssessment,
             style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFFF9A00),
               padding: EdgeInsets.symmetric(vertical: 16.h),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.r),
@@ -303,7 +317,7 @@ class _PeerAssessmentPageState extends State<PeerAssessmentPage> {
                     : Text(
                       'Kirim Penilaian',
                       style: TextStyle(
-                        color: const Color(0xFFED832F),
+                        color: Colors.white,
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w800,
                       ),
@@ -318,16 +332,33 @@ class _PeerAssessmentPageState extends State<PeerAssessmentPage> {
   Widget _buildQuestionSlider(int number, String questionText, int questionId) {
     return Card(
       margin: EdgeInsets.only(bottom: 16.h),
+      color: const Color(0xFFFDFCEA),
       child: Padding(
         padding: EdgeInsets.all(16.r),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('$number. $questionText', style: TextStyle(fontSize: 16.sp)),
+            Text(
+              '$number. $questionText',
+              style: TextStyle(
+                color: const Color(0xFF6C432D),
+                fontSize: 16.sp,
+                fontFamily: 'Plus Jakarta Sans',
+                fontWeight: FontWeight.w500,
+              ),
+            ),
             SizedBox(height: 8.h),
             Row(
               children: [
-                const Text('1'),
+                Text(
+                  '1',
+                  style: TextStyle(
+                    color: const Color(0xFF6C432D),
+                    fontSize: 16.sp,
+                    fontFamily: 'Plus Jakarta Sans',
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
                 Expanded(
                   child: Slider(
                     value: _scores[questionId] ?? 1.0,
@@ -342,7 +373,15 @@ class _PeerAssessmentPageState extends State<PeerAssessmentPage> {
                     },
                   ),
                 ),
-                const Text('5'),
+                Text(
+                  '5',
+                  style: TextStyle(
+                    color: const Color(0xFF6C432D),
+                    fontSize: 16.sp,
+                    fontFamily: 'Plus Jakarta Sans',
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ],
             ),
           ],

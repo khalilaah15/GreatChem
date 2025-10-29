@@ -60,8 +60,11 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Image.asset('assets/images/splahscreen.png', fit: BoxFit.fill),
+      body: Image.asset(
+        'assets/images/splahs_vireact.png',
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: double.infinity,
       ),
     );
   }

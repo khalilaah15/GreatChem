@@ -68,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
       if (mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(SnackBar(content: Text("Login gagal: $e")));
+        ).showSnackBar(SnackBar(content: Text("Login gagal")));
       }
     }
   }
@@ -78,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFC2A180),
+      backgroundColor: Color(0xFFB07C48),
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -101,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
               width: double.infinity,
               padding: EdgeInsets.all(25.r),
               decoration: BoxDecoration(
-                color: Color(0xFF6C432D),
+                color: Color(0xFF4F200D),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(50.r),
                   topRight: Radius.circular(50.r),
@@ -195,7 +195,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: ElevatedButton(
                       onPressed: login,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFFED832F),
+                        backgroundColor: Color(0xFFF78409),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(25.r),
                         ),

@@ -66,23 +66,24 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Color(0xFF6C432D)),
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
         centerTitle: true,
         title: Text(
-          'Akun',
+          'Profile',
           style: TextStyle(
-            color: Color(0xFF6C432D),
+            color: Colors.white,
             fontSize: 24.sp,
             fontFamily: 'Plus Jakarta Sans',
             fontWeight: FontWeight.w800,
           ),
         ),
-        backgroundColor: Color(0xFFDFCFB5),
+        backgroundColor: const Color(0xFF4F200D),
       ),
+      backgroundColor: const Color(0xFFB07C48),
       body: Container(
         height: double.infinity,
         width: double.infinity,
@@ -93,72 +94,73 @@ class _ProfilePageState extends State<ProfilePage> {
             fit: BoxFit.cover,
           ),
         ),
-        child: _loading
-            ? const Center(child: CircularProgressIndicator())
-            : profile == null
+        child:
+            _loading
+                ? const Center(child: CircularProgressIndicator())
+                : profile == null
                 ? const Center(child: Text("Data profil tidak tersedia"))
                 : Center(
-                    child: Container(
-                      height: 380.h,
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFFDFCEA),
-                        borderRadius: BorderRadius.circular(12.r),
-                        border: Border.all(color: Color(0xFF6C432D), width: 1.w),
-                      ),
-                      child: ListView(
-                        padding: EdgeInsets.all(20.r),
-                        children: [
-                          CircleAvatar(
-                            radius: 40.r,
-                            child: Text(
-                              profile['name'] != null &&
-                                      profile['name'].isNotEmpty
-                                  ? profile['name'][0].toUpperCase()
-                                  : '?',
-                              style: TextStyle(fontSize: 32.sp),
-                            ),
+                  child: Container(
+                    height: 380.h,
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFFDFCEA),
+                      borderRadius: BorderRadius.circular(12.r),
+                      border: Border.all(color: Color(0xFF6C432D), width: 1.w),
+                    ),
+                    child: ListView(
+                      padding: EdgeInsets.all(20.r),
+                      children: [
+                        CircleAvatar(
+                          radius: 40.r,
+                          child: Text(
+                            profile['name'] != null &&
+                                    profile['name'].isNotEmpty
+                                ? profile['name'][0].toUpperCase()
+                                : '?',
+                            style: TextStyle(fontSize: 32.sp),
                           ),
-                          SizedBox(height: 16.h),
-                          Text(
-                            profile['name'] ?? '-',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 20.sp,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF6C432D),
-                            ),
+                        ),
+                        SizedBox(height: 16.h),
+                        Text(
+                          profile['name'] ?? '-',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF6C432D),
                           ),
-                          SizedBox(height: 8.h),
-                          Text(
-                            profile['role'] ?? '-',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              color: Color(0xFF6C432D),
-                            ),
+                        ),
+                        SizedBox(height: 8.h),
+                        Text(
+                          profile['role'] ?? '-',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            color: Color(0xFF6C432D),
                           ),
-                          Divider(height: 32.h, color: Color(0xFF6C432D)),
-                          _buildProfileField("Sekolah", profile['school_name']),
-                          _buildProfileField("NISN / NIP", profile['nisn_nip']),
-                          _buildProfileField(
-                            "Target Capaian",
-                            "${profile['target_capaian'] ?? 0}%",
+                        ),
+                        Divider(height: 32.h, color: Color(0xFF6C432D)),
+                        _buildProfileField("Sekolah", profile['school_name']),
+                        _buildProfileField("NISN / NIP", profile['nisn_nip']),
+                        _buildProfileField(
+                          "Target Capaian",
+                          "${profile['target_capaian'] ?? 0}%",
+                        ),
+                        SizedBox(height: 24.h),
+                        ElevatedButton.icon(
+                          onPressed: logout,
+                          icon: const Icon(Icons.logout),
+                          label: const Text("Keluar"),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                            foregroundColor: Colors.white,
                           ),
-                          SizedBox(height: 24.h),
-                          ElevatedButton.icon(
-                            onPressed: logout,
-                            icon: const Icon(Icons.logout),
-                            label: const Text("Keluar"),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red,
-                              foregroundColor: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
+                ),
       ),
     );
   }

@@ -73,7 +73,7 @@ class _GuruPageState extends State<GuruPage> {
             Container(
               width: double.infinity,
               decoration: const BoxDecoration(
-                color: Color(0xFF6C432D),
+                color: Color(0xFF4F200D),
                 image: DecorationImage(
                   image: AssetImage('assets/images/pattern.png'),
                   fit: BoxFit.cover,
@@ -149,7 +149,11 @@ class _GuruPageState extends State<GuruPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Image.asset('assets/images/bookleft.png', height: 160.h, width: 160.w),
+                              Image.asset(
+                                'assets/images/bookleft.png',
+                                height: 160.h,
+                                width: 160.w,
+                              ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
@@ -181,7 +185,7 @@ class _GuruPageState extends State<GuruPage> {
                       width: double.infinity,
                       padding: EdgeInsets.all(25.r), // Diubah
                       decoration: BoxDecoration(
-                        color: const Color(0xFFC2A180),
+                        color: const Color(0xFFB07C48),
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(50.r), // Diubah
                           topRight: Radius.circular(50.r), // Diubah

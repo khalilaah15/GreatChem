@@ -57,17 +57,17 @@ class _TargetCapaianSiswaPageState extends State<TargetCapaianSiswaPage> {
         ),
         centerTitle: true,
         title: Text(
-          'Target Capaian Belajar',
+          'ChemTrack',
           style: TextStyle(
             color: Colors.white,
-            fontSize: 24.sp, // Diubah
+            fontSize: 24.sp,
             fontFamily: 'Plus Jakarta Sans',
             fontWeight: FontWeight.w800,
           ),
         ),
-        backgroundColor: const Color(0xFF6C432D),
+        backgroundColor: const Color(0xFF4F200D),
       ),
-      backgroundColor: const Color(0xFFDFCFB5),
+      backgroundColor: const Color(0xFFB07C48),
       body: Center(
         child: _percentage == null
             ? const CircularProgressIndicator()
@@ -99,7 +99,7 @@ class _TargetCapaianSiswaPageState extends State<TargetCapaianSiswaPage> {
                             'SELAMAT',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              color: const Color(0xFF634A9F),
+                              color: const Color(0xFF4F200D),
                               fontSize: 28.sp, // Diubah
                               fontFamily: 'Poppins',
                               fontWeight: FontWeight.w800,
@@ -108,7 +108,7 @@ class _TargetCapaianSiswaPageState extends State<TargetCapaianSiswaPage> {
                           SizedBox(height: 16.h), // Diubah
                           SizedBox(
                             height: 100.h, // Diubah
-                            width: 100.w,  // Diubah
+                            width: 110.w,  // Diubah
                             child: Stack(
                               fit: StackFit.expand,
                               children: [
@@ -141,7 +141,7 @@ class _TargetCapaianSiswaPageState extends State<TargetCapaianSiswaPage> {
                             'Terus tingkatkan prestasimu \ndan tetap semangat!',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              color: const Color(0xFF634A9F),
+                              color: const Color(0xFF4F200D),
                               fontSize: 20.sp, // Diubah
                               fontFamily: 'Poppins',
                               fontWeight: FontWeight.w700,

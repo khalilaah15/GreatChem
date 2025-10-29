@@ -44,6 +44,8 @@ dependencies:
   image_picker: ^1.2.0
   flutter_screenutil: ^5.9.3
   syncfusion_flutter_pdfviewer: ^30.2.7
+  flutter_linkify: ^6.0.0
+  webview_flutter: ^4.13.0
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1
@@ -73,7 +75,6 @@ flutter:
   uses-material-design: true
   assets:
   - assets/ebook/ebook.pdf
-  - assets/images/logo_british.png
   - assets/images/logo_crop.png
   - assets/images/banner.png
   - assets/images/avatar.png 
@@ -93,6 +94,11 @@ flutter:
   - assets/images/masalah_3.png
   - assets/images/masalah_4.png
   - assets/images/AI.svg
+  - assets/images/sintesis.png
+  - assets/images/eksplorasi.png
+  - assets/images/koordinasi.png
+  - assets/images/aktivasi.png
+  - assets/images/kajian.png
   - assets/images/ebook.svg
   - assets/images/glab.svg
   - assets/images/ChemTry.svg
@@ -106,6 +112,7 @@ flutter:
   - assets/images/diskusi.png
   - assets/images/bookleft.png
   - assets/images/splahscreen.png
+  - assets/images/splahs_vireact.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

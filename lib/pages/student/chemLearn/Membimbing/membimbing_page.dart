@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:greatchem/pages/student/chemLearn/Membimbing/glab_page.dart';
+import 'package:greatchem/pages/student/chemLearn/Mengembangkan/mengembangkan_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MembimbingPage extends StatelessWidget {
-  const MembimbingPage({super.key});
+  final VoidCallback onFinished;
+  const MembimbingPage({Key? key, required this.onFinished}) : super(key: key);
   Future<void> _openLink(String url) async {
     final Uri uri = Uri.parse(url);
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
@@ -24,7 +27,7 @@ class MembimbingPage extends StatelessWidget {
         ),
         centerTitle: true,
         title: Text(
-          'Membimbing Penyelidikan',
+          'Eksplorasi Reaksi',
           style: TextStyle(
             color: Colors.white,
             fontSize: 24.sp,
@@ -32,9 +35,23 @@ class MembimbingPage extends StatelessWidget {
             fontWeight: FontWeight.w800,
           ),
         ),
-        backgroundColor: const Color(0xFF6C432D),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.arrow_forward_ios, color: Colors.white),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MengembangkanPage(onFinished: () {}),
+                ),
+              );
+            },
+          ),
+          SizedBox(width: 5.w),
+        ],
+        backgroundColor: const Color(0xFF4F200D),
       ),
-      backgroundColor: const Color(0xFFDFCFB5),
+      backgroundColor: const Color(0xFFB07C48),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -46,7 +63,7 @@ class MembimbingPage extends StatelessWidget {
               margin: EdgeInsets.symmetric(horizontal: 20.w),
               clipBehavior: Clip.antiAlias,
               decoration: ShapeDecoration(
-                color: const Color(0xFFFFDC7C),
+                color: const Color(0xFFF9EF96),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.r),
                 ),
@@ -73,7 +90,12 @@ class MembimbingPage extends StatelessWidget {
             SizedBox(height: 15.h),
             GestureDetector(
               onTap: () {
-                // aksi saat ditekan
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => VirtualLaboratoryPage(),
+                  ),
+                );
               },
               child: Container(
                 margin: EdgeInsets.symmetric(horizontal: 10.w),
@@ -96,12 +118,13 @@ class MembimbingPage extends StatelessWidget {
               iconData: Icons.document_scanner_rounded,
               text: 'Pengumpulan Laporan\nHasil Praktikum',
               onTap: () {
+                onFinished();
                 _openLink(
                   "https://drive.google.com/drive/folders/1reNWXvtB3QZifO3lr-Dj9DOb-YlNGRfK?usp=drive_link",
                 );
               },
             ),
-            const Spacer(), 
+            const Spacer(),
             Image.asset('assets/images/bottom.png', fit: BoxFit.cover),
           ],
         ),
@@ -121,7 +144,7 @@ class MembimbingPage extends StatelessWidget {
         margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 24.w),
         padding: EdgeInsets.all(6.r),
         decoration: BoxDecoration(
-          color: const Color(0xFFC2A180),
+          color: const Color(0xFFFFD93D),
           borderRadius: BorderRadius.circular(50.r),
           border: Border.all(color: const Color(0xFF6E4B34), width: 1.w),
         ),
@@ -130,14 +153,10 @@ class MembimbingPage extends StatelessWidget {
             Container(
               padding: EdgeInsets.all(12.r),
               decoration: const BoxDecoration(
-                color: Color(0xFF4a3826),
+                color: Color(0xFFA34600),
                 shape: BoxShape.circle,
               ),
-              child: Icon(
-                iconData,
-                color: const Color(0xFFfdd835),
-                size: 28.sp,
-              ),
+              child: Icon(iconData, color: Colors.white, size: 28.sp),
             ),
             SizedBox(width: 16.w),
             Expanded(
@@ -145,15 +164,15 @@ class MembimbingPage extends StatelessWidget {
                 text,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF020202),
+                  fontWeight: FontWeight.w700,
                   fontSize: 16.sp,
                 ),
               ),
             ),
             Padding(
               padding: EdgeInsets.only(right: 16.w),
-              child: Icon(icon, color: Colors.white, size: 40.sp),
+              child: Icon(icon, color: Color(0xFFA34600), size: 40.sp),
             ),
           ],
         ),

@@ -48,11 +48,12 @@ class _SesiTanyajawabPageState extends State<SesiTanyajawabPage> {
   Future<void> _loadUserName() async {
     final user = Supabase.instance.client.auth.currentUser;
     if (user != null) {
-      final profile = await Supabase.instance.client
-          .from('profiles')
-          .select('name')
-          .eq('id', user.id)
-          .single();
+      final profile =
+          await Supabase.instance.client
+              .from('profiles')
+              .select('name')
+              .eq('id', user.id)
+              .single();
       if (mounted) {
         setState(() {
           _currentUsername = profile['name'];
@@ -69,11 +70,7 @@ class _SesiTanyajawabPageState extends State<SesiTanyajawabPage> {
       final userId = Supabase.instance.client.auth.currentUser?.id;
       if (userId == null) return;
 
-      await service.sendMessage(
-        _currentUsername!,
-        messageText,
-        userId,
-      );
+      await service.sendMessage(_currentUsername!, messageText, userId);
       _msgController.clear();
     }
   }
@@ -86,12 +83,7 @@ class _SesiTanyajawabPageState extends State<SesiTanyajawabPage> {
       final userId = Supabase.instance.client.auth.currentUser?.id;
       if (userId == null) return;
 
-      await service.sendMessage(
-        _currentUsername!,
-        "",
-        userId,
-        file: file,
-      );
+      await service.sendMessage(_currentUsername!, "", userId, file: file);
     }
   }
 
@@ -110,14 +102,14 @@ class _SesiTanyajawabPageState extends State<SesiTanyajawabPage> {
           'Sesi Tanya Jawab',
           style: TextStyle(
             color: Colors.white,
-            fontSize: 24.sp, // Diubah
+            fontSize: 24.sp,
             fontFamily: 'Plus Jakarta Sans',
             fontWeight: FontWeight.w800,
           ),
         ),
-        backgroundColor: const Color(0xFF6C432D),
+        backgroundColor: const Color(0xFF4F200D),
       ),
-      backgroundColor: const Color(0xFFDFCFB5),
+      backgroundColor: const Color(0xFFB07C48),
       body: Column(
         children: [
           Expanded(
@@ -157,7 +149,8 @@ class _SesiTanyajawabPageState extends State<SesiTanyajawabPage> {
     final bubbleRadius = BorderRadius.only(
       topLeft: Radius.circular(16.r), // Diubah
       topRight: Radius.circular(16.r), // Diubah
-      bottomRight: isMe ? Radius.circular(4.r) : Radius.circular(16.r), // Diubah
+      bottomRight:
+          isMe ? Radius.circular(4.r) : Radius.circular(16.r), // Diubah
       bottomLeft: isMe ? Radius.circular(16.r) : Radius.circular(4.r), // Diubah
     );
 
@@ -167,7 +160,10 @@ class _SesiTanyajawabPageState extends State<SesiTanyajawabPage> {
         constraints: BoxConstraints(
           maxWidth: ScreenUtil().screenWidth * 0.75, // Diubah
         ),
-        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h), // Diubah
+        padding: EdgeInsets.symmetric(
+          horizontal: 12.w,
+          vertical: 8.h,
+        ), // Diubah
         margin: EdgeInsets.symmetric(vertical: 5.h, horizontal: 8.w), // Diubah
         decoration: BoxDecoration(
           color: isMe ? const Color(0xFFFFDC7C) : Colors.white,
@@ -234,7 +230,10 @@ class _SesiTanyajawabPageState extends State<SesiTanyajawabPage> {
             SizedBox(width: 8.w), // Diubah
             Text(
               "Lihat File Lampiran",
-              style: TextStyle(color: Colors.black87, fontSize: 14.sp), // Diubah
+              style: TextStyle(
+                color: Colors.black87,
+                fontSize: 14.sp,
+              ), // Diubah
             ),
           ],
         ),

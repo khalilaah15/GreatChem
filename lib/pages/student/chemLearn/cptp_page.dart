@@ -26,9 +26,9 @@ class CPTPPage extends StatelessWidget {
             fontWeight: FontWeight.w800,
           ),
         ),
-        backgroundColor: const Color(0xFF6C432D),
+        backgroundColor: const Color(0xFF4F200D),
       ),
-      backgroundColor: const Color(0xFFDFCFB5),
+      backgroundColor: const Color(0xFFB07C48),
       body: SafeArea(
         child: Column(
           children: [
@@ -74,7 +74,7 @@ class CPTPPage extends StatelessWidget {
                             width: 200.w,
                             height: 50.h,
                             decoration: BoxDecoration(
-                              color: const Color(0xFFFF8C00),
+                              color: const Color(0xFFFF9A00),
                               borderRadius: BorderRadius.circular(25.r),
                               boxShadow: [
                                 BoxShadow(

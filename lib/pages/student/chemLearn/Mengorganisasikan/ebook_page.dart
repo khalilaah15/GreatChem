@@ -55,14 +55,14 @@ class _EbookPageState extends State<EbookPage> {
             fontWeight: FontWeight.w800,
           ),
         ),
-        backgroundColor: Color(0xFF6C432D),
+        backgroundColor: const Color(0xFF4F200D),
       ),
-      backgroundColor: Color(0xFFDFCFB5),
+      backgroundColor: const Color(0xFFB07C48),
       body:
-          // localPath != null
-          //     ? PDFView(filePath: localPath!)
-          //     : const Center(child: CircularProgressIndicator()),
-          SfPdfViewer.asset('assets/ebook/ebook.pdf'),
+      // localPath != null
+      //     ? PDFView(filePath: localPath!)
+      //     : const Center(child: CircularProgressIndicator()),
+      SfPdfViewer.asset('assets/ebook/ebook.pdf'),
     );
   }
 }

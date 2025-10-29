@@ -3,7 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:greatchem/pages/student/chemLearn/Mengorganisasikan/menu_page.dart';
 
 class RumusanMasalahPage extends StatefulWidget {
-  const RumusanMasalahPage({super.key});
+  final VoidCallback onFinished;
+  const RumusanMasalahPage({Key? key, required this.onFinished})
+    : super(key: key);
 
   @override
   State<RumusanMasalahPage> createState() => _RumusanMasalahPageState();
@@ -19,6 +21,7 @@ class _RumusanMasalahPageState extends State<RumusanMasalahPage> {
   }
 
   void _goToNextPage() {
+    widget.onFinished();
     Navigator.of(
       context,
     ).push(MaterialPageRoute(builder: (context) => const MenuOrganisasiPage()));
@@ -36,7 +39,7 @@ class _RumusanMasalahPageState extends State<RumusanMasalahPage> {
         ),
         centerTitle: true,
         title: Text(
-          'Mengorganisasikan Siswa',
+          'Koordinasi Reaksi',
           style: TextStyle(
             color: Colors.white,
             fontSize: 24.sp,
@@ -44,9 +47,23 @@ class _RumusanMasalahPageState extends State<RumusanMasalahPage> {
             fontWeight: FontWeight.w800,
           ),
         ),
-        backgroundColor: const Color(0xFF6C432D),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.arrow_forward_ios, color: Colors.white),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const MenuOrganisasiPage(),
+                ),
+              );
+            },
+          ),
+          SizedBox(width: 5.w),
+        ],
+        backgroundColor: const Color(0xFF4F200D),
       ),
-      backgroundColor: const Color(0xFFDFCFB5),
+      backgroundColor: const Color(0xFFB07C48),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -57,7 +74,7 @@ class _RumusanMasalahPageState extends State<RumusanMasalahPage> {
               width: double.infinity,
               clipBehavior: Clip.antiAlias,
               decoration: ShapeDecoration(
-                color: const Color(0xFFFFDC7C),
+                color: const Color(0xFFF9EF96),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.r),
                 ),
@@ -97,7 +114,7 @@ class _RumusanMasalahPageState extends State<RumusanMasalahPage> {
             child: Text(
               'Tulis Rumusan Masalahmu disini!',
               style: TextStyle(
-                color: const Color(0xFF6C432D),
+                color: Colors.white,
                 fontSize: 16.sp,
                 fontFamily: 'Plus Jakarta Sans',
                 fontWeight: FontWeight.w700,
@@ -124,7 +141,7 @@ class _RumusanMasalahPageState extends State<RumusanMasalahPage> {
             child: ElevatedButton(
               onPressed: _goToNextPage,
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFED832F),
+                backgroundColor: const Color(0xFFFF9A00),
                 fixedSize: Size(double.infinity, 45.h),
                 padding: EdgeInsets.symmetric(vertical: 10.h),
                 shape: RoundedRectangleBorder(
@@ -152,11 +169,9 @@ class _RumusanMasalahPageState extends State<RumusanMasalahPage> {
 
   Widget _buildSectionHeader({required String title, required Color color}) {
     return Row(
-      // Bungkus dengan Row agar Container tidak merentang penuh
-      mainAxisAlignment: MainAxisAlignment.start, // Atur posisi ke kiri
+      mainAxisAlignment: MainAxisAlignment.start, 
       children: [
         Container(
-          // Hapus width: double.infinity
           height: 40.h,
           decoration: BoxDecoration(
             color: color,

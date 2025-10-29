@@ -166,7 +166,7 @@ class _ChemTryResultPageState extends State<ChemTryResultPage> {
         ),
         centerTitle: true,
         title: Text(
-          'Hasil ChemTry Siswa',
+          'Hasil Latihan Soal',
           style: TextStyle(
             color: Colors.white,
             fontSize: 24.sp,
@@ -174,9 +174,9 @@ class _ChemTryResultPageState extends State<ChemTryResultPage> {
             fontWeight: FontWeight.w800,
           ),
         ),
-        backgroundColor: const Color(0xFF6C432D),
+        backgroundColor: const Color(0xFF4F200D),
       ),
-      backgroundColor: const Color(0xFFDFCFB5),
+      backgroundColor: const Color(0xFFB07C48),
       body:
           _isLoading
               ? const Center(child: CircularProgressIndicator())
@@ -247,7 +247,11 @@ class _ChemTryResultPageState extends State<ChemTryResultPage> {
         const SizedBox(height: 24),
         const Text(
           'Feedback untuk Siswa:',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
         const SizedBox(height: 10),
         TextField(
@@ -291,7 +295,7 @@ class _ChemTryResultPageState extends State<ChemTryResultPage> {
         const SizedBox(height: 24),
         const Text(
           'Detail Jawaban:',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
         ),
         const SizedBox(height: 10),
         ..._answers.map((answer) {

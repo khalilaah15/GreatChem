@@ -96,7 +96,7 @@ class _ListDiskusiKelompokPageState extends State<ListDiskusiKelompokPage> {
         ),
         centerTitle: true,
         title: Text(
-          'ChemTalk',
+          'Diskusi Kelompok',
           style: TextStyle(
             color: Colors.white,
             fontSize: 24.sp,
@@ -104,7 +104,7 @@ class _ListDiskusiKelompokPageState extends State<ListDiskusiKelompokPage> {
             fontWeight: FontWeight.w800,
           ),
         ),
-        backgroundColor: const Color(0xFF6C432D),
+        backgroundColor: const Color(0xFF4F200D),
       ),
       backgroundColor: const Color(0xFFDFCFB5),
       body: StreamBuilder<List<ChatRoom>>(
@@ -120,14 +120,16 @@ class _ListDiskusiKelompokPageState extends State<ListDiskusiKelompokPage> {
           }
           final rooms = snapshot.data!;
           return ListView.separated(
+            padding: EdgeInsets.all(10.r),
             itemCount: rooms.length,
-            separatorBuilder: (context, index) => Divider(
-              color: Colors.white,
-              thickness: 1,
-              indent: 72.w,
-              endIndent: 25.w,
-              height: 0,
-            ),
+            separatorBuilder:
+                (context, index) => Divider(
+                  color: Colors.white,
+                  thickness: 1,
+                  indent: 72.w,
+                  endIndent: 25.w,
+                  height: 0,
+                ),
             itemBuilder: (context, index) {
               final room = rooms[index];
               return ListTile(
@@ -148,7 +150,9 @@ class _ListDiskusiKelompokPageState extends State<ListDiskusiKelompokPage> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => ChatRoomGuruPage(room: room)),
+                    MaterialPageRoute(
+                      builder: (_) => ChatRoomGuruPage(room: room),
+                    ),
                   );
                 },
               );

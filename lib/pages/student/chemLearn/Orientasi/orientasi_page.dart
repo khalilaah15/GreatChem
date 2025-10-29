@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:greatchem/pages/student/chemLearn/Mengorganisasikan/rumusan_masalah_page.dart';
 import 'package:greatchem/pages/student/chemLearn/Orientasi/masalah1_page.dart';
 import 'package:greatchem/pages/student/chemLearn/Orientasi/masalah2_page.dart';
 import 'package:greatchem/pages/student/chemLearn/Orientasi/masalah3_page.dart';
 import 'package:greatchem/pages/student/chemLearn/Orientasi/masalah4_page.dart';
 
 class OrientasiPage extends StatelessWidget {
-  const OrientasiPage({super.key});
+  final VoidCallback onFinished;
+  const OrientasiPage({Key? key, required this.onFinished}) : super(key: key);
+
   void _navigateTo(BuildContext context, Widget page) {
     Navigator.push(context, MaterialPageRoute(builder: (context) => page));
   }
@@ -23,7 +26,7 @@ class OrientasiPage extends StatelessWidget {
         ),
         centerTitle: true,
         title: Text(
-          'Orientasi',
+          'Aktivasi Reaksi',
           style: TextStyle(
             color: Colors.white,
             fontSize: 24.sp,
@@ -31,77 +34,90 @@ class OrientasiPage extends StatelessWidget {
             fontWeight: FontWeight.w800,
           ),
         ),
-        backgroundColor: const Color(0xFF6C432D),
-      ),
-      backgroundColor: const Color(0xFFDFCFB5),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(top: 16.h, left: 16.w, right: 16.w),
-              child: Text(
-                'Orientasi Siswa Pada Masalah',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: const Color(0xFF6C432D),
-                  fontSize: 22.sp,
-                  fontFamily: 'Plus Jakarta Sans',
-                  fontWeight: FontWeight.w800,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.arrow_forward_ios, color: Colors.white),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => RumusanMasalahPage(onFinished: () {}),
                 ),
+              );
+            },
+          ),
+          SizedBox(width: 5.w),
+        ],
+        backgroundColor: const Color(0xFF4F200D),
+      ),
+      backgroundColor: const Color(0xFFB07C48),
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(height: 16.h),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: _buildMenuCard(
+                      context: context,
+                      title: 'Masalah 1',
+                      subtitle:
+                          'Perlindungan Konsumen Terhadap Bahan Kimia Berbahaya pada Tahu di Pasar Tradisional Rumbio',
+                      iconPath: 'assets/images/masalah1_icon.png',
+                      onTap: () => _navigateTo(context, const Masalah1Page()),
+                    ),
+                  ),
+                  SizedBox(height: 16.h),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: _buildMenuCard(
+                      context: context,
+                      title: 'Masalah 2',
+                      subtitle:
+                          'Pemakaian Pupuk Kimia Berlebihan Sebabkan Lahan Pertanian Rusak',
+                      iconPath: 'assets/images/masalah2_icon.png',
+                      onTap: () => _navigateTo(context, const Masalah2Page()),
+                    ),
+                  ),
+                  SizedBox(height: 16.h),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: _buildMenuCard(
+                      context: context,
+                      title: 'Masalah 3',
+                      subtitle:
+                          'BPBD: Karhutla di Kalimantan Barat Terus Meluas',
+                      iconPath: 'assets/images/masalah3_icon.png',
+                      onTap: () => _navigateTo(context, const Masalah3Page()),
+                    ),
+                  ),
+                  SizedBox(height: 16.h),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: _buildMenuCard(
+                      context: context,
+                      title: 'Masalah 4',
+                      subtitle:
+                          'Pemanfaatan Limbah Tempurung Kelapa Menjadi Briket Untuk Bahan Bakar Alternatif',
+                      iconPath: 'assets/images/masalah4_icon.png',
+                      onTap: () {
+                        onFinished();
+                        _navigateTo(context, const Masalah4Page());
+                      },
+                    ),
+                  ),
+                ],
               ),
             ),
-            SizedBox(height: 16.h),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: _buildMenuCard(
-                context: context,
-                title: 'Masalah 1',
-                subtitle:
-                    'Perlindungan Konsumen Terhadap Bahan Kimia Berbahaya pada Tahu di Pasar Tradisional Rumbio',
-                iconPath: 'assets/images/masalah1_icon.png',
-                onTap: () => _navigateTo(context, const Masalah1Page()),
-              ),
-            ),
-            SizedBox(height: 16.h),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: _buildMenuCard(
-                context: context,
-                title: 'Masalah 2',
-                subtitle:
-                    'Pemakaian Pupuk Kimia Berlebihan Sebabkan Lahan Pertanian Rusak',
-                iconPath: 'assets/images/masalah2_icon.png',
-                onTap: () => _navigateTo(context, const Masalah2Page()),
-              ),
-            ),
-            SizedBox(height: 16.h),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: _buildMenuCard(
-                context: context,
-                title: 'Masalah 3',
-                subtitle: 'BPBD: Karhutla di Kalimantan Barat Terus Meluas',
-                iconPath: 'assets/images/masalah3_icon.png',
-                onTap: () => _navigateTo(context, const Masalah3Page()),
-              ),
-            ),
-            SizedBox(height: 16.h),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: _buildMenuCard(
-                context: context,
-                title: 'Masalah 4',
-                subtitle:
-                    'Pemanfaatan Limbah Tempurung Kelapa Menjadi Briket Untuk Bahan Bakar Alternatif',
-                iconPath: 'assets/images/masalah4_icon.png',
-                onTap: () => _navigateTo(context, const Masalah4Page()),
-              ),
-            ),
-            const Spacer(),
-            Image.asset('assets/images/bottom.png', fit: BoxFit.cover),
-          ],
-        ),
+          ),
+          Image.asset(
+            'assets/images/bottom.png',
+            fit: BoxFit.cover,
+            width: double.infinity,
+          ),
+        ],
       ),
     );
   }

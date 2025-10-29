@@ -18,6 +18,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
   final _chatService = ChatService();
   final _messageController = TextEditingController();
   final _currentUserId = Supabase.instance.client.auth.currentUser!.id;
+  bool _hasSentFirstMessage = false;
 
   @override
   void dispose() {
@@ -28,7 +29,11 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
   Future<void> _sendMessage() async {
     final message = _messageController.text.trim();
     if (message.isEmpty) return;
-    widget.onFinished();
+
+    if (!_hasSentFirstMessage) {
+      widget.onFinished();
+      _hasSentFirstMessage = true;
+    }
 
     await _chatService.sendMessage(roomId: widget.room.id, message: message);
     _messageController.clear();
@@ -54,11 +59,72 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
             fontWeight: FontWeight.w800,
           ),
         ),
-        backgroundColor: const Color(0xFF6C432D),
+        backgroundColor: const Color(0xFF4F200D),
       ),
-      backgroundColor: const Color(0xFFDFCFB5),
+      backgroundColor: const Color(0xFFB07C48),
       body: Column(
         children: [
+          Container(
+            padding: EdgeInsets.all(16.r),
+            margin: EdgeInsets.all(10.r),
+            width: double.infinity,
+            clipBehavior: Clip.antiAlias,
+            decoration: ShapeDecoration(
+              color: const Color(0xFFF9EF96),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.r),
+              ),
+              shadows: [
+                BoxShadow(
+                  color: const Color(0x3F000000),
+                  blurRadius: 4.r,
+                  offset: const Offset(0, 0),
+                  spreadRadius: 0,
+                ),
+              ],
+            ),
+            child: Text(
+              '1. Periksa kembali hasil diskusi\n2. Presentasikan hasil diskusi dengan teman sekelas\n3. Kirim hasil diskusi kelompok pada kolom diskusi kelas',
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                color: const Color(0xFF6C432D),
+                fontSize: 13.sp,
+                fontFamily: 'Plus Jakarta Sans',
+                fontWeight: FontWeight.w600,
+                height: 1.25,
+              ),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.all(10.r),
+            padding: EdgeInsets.all(16.r),
+            clipBehavior: Clip.antiAlias,
+            decoration: ShapeDecoration(
+              color: const Color(0xFFFF9A00),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.r),
+              ),
+              shadows: [
+                BoxShadow(
+                  color: const Color(0x3F000000),
+                  blurRadius: 4.r,
+                  offset: const Offset(0, 0),
+                  spreadRadius: 0,
+                ),
+              ],
+            ),
+            child: Text(
+              'Diskusi Kelompok',
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 13.sp,
+                fontFamily: 'Plus Jakarta Sans',
+                fontWeight: FontWeight.w600,
+                height: 1.25,
+              ),
+            ),
+          ),
           Expanded(
             child: StreamBuilder<List<ChatMessage>>(
               stream: _chatService.getMessagesStream(widget.room.id),
@@ -99,7 +165,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
         padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
         margin: EdgeInsets.symmetric(vertical: 4.h),
         decoration: BoxDecoration(
-          color: isMe ? const Color(0xFFFFDC7C) : Colors.white,
+          color: isMe ? const Color(0xFFF9EF96) : Colors.white,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(16.r),
             topRight: Radius.circular(16.r),

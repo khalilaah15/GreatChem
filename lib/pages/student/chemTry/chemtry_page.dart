@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:greatchem/pages/student/home_page.dart';
 import 'package:markdown_widget/config/configs.dart';
 import 'package:markdown_widget/widget/blocks/leaf/paragraph.dart';
 import 'package:markdown_widget/widget/markdown.dart';
@@ -164,7 +165,10 @@ class _ChemTryPageState extends State<ChemTryPage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => SiswaPage()),
+            );
           },
         ),
         centerTitle: true,
@@ -177,9 +181,9 @@ class _ChemTryPageState extends State<ChemTryPage> {
             fontWeight: FontWeight.w800,
           ),
         ),
-        backgroundColor: const Color(0xFF6C432D),
+        backgroundColor: const Color(0xFF4F200D),
       ),
-      backgroundColor: const Color(0xFFDFCFB5),
+      backgroundColor: const Color(0xFFB07C48),
       body:
           _isLoading
               ? const Center(child: CircularProgressIndicator())
@@ -203,6 +207,7 @@ class _ChemTryPageState extends State<ChemTryPage> {
 
               return Card(
                 margin: EdgeInsets.only(bottom: 16.h),
+                color: Color(0xFFFDFCEA),
                 child: Padding(
                   padding: EdgeInsets.all(16.r),
                   child: Column(
@@ -211,7 +216,9 @@ class _ChemTryPageState extends State<ChemTryPage> {
                       Text(
                         '${index + 1}. ${question['question_text']}',
                         style: TextStyle(
+                          color: const Color(0xFF4F200D),
                           fontSize: 16.sp,
+                          fontFamily: 'Plus Jakarta Sans',
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -229,7 +236,15 @@ class _ChemTryPageState extends State<ChemTryPage> {
                       SizedBox(height: 10.h),
                       ...options.entries.map((option) {
                         return RadioListTile<String>(
-                          title: Text(option.value),
+                          title: Text(
+                            option.value,
+                            style: TextStyle(
+                              color: const Color(0xFF4F200D),
+                              fontSize: 16,
+                              fontFamily: 'Plus Jakarta Sans',
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                           value: option.key,
                           groupValue: _selectedAnswers[questionId],
                           onChanged: (value) {
@@ -285,7 +300,13 @@ class _ChemTryPageState extends State<ChemTryPage> {
             padding: EdgeInsets.all(20.r),
             child: Column(
               children: [
-                Text('Skor Akhir Kamu', style: TextStyle(fontSize: 20.sp)),
+                Text(
+                  'Skor Akhir Kamu',
+                  style: TextStyle(
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 Text(
                   '$_totalScore',
                   style: TextStyle(
@@ -294,14 +315,20 @@ class _ChemTryPageState extends State<ChemTryPage> {
                     color: Colors.blue,
                   ),
                 ),
-                Text('dari 100 poin', style: TextStyle(fontSize: 16.sp)),
+                Text(
+                  'dari 100 poin',
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ],
             ),
           ),
         ),
         SizedBox(height: 16.h),
         Card(
-          color: hasFeedback ? Colors.green.shade50 : Colors.orange.shade50,
+          color: hasFeedback ? Color(0xFFF9EF96) : Colors.orange.shade50,
           child: Padding(
             padding: EdgeInsets.all(16.r),
             child: Column(
@@ -312,6 +339,7 @@ class _ChemTryPageState extends State<ChemTryPage> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 13.sp,
+                    color: Color(0xFF6C432D),
                   ),
                 ),
                 SizedBox(height: 8.h),
@@ -322,7 +350,7 @@ class _ChemTryPageState extends State<ChemTryPage> {
                   style: TextStyle(
                     fontStyle:
                         hasFeedback ? FontStyle.normal : FontStyle.italic,
-                    color: hasFeedback ? Colors.black87 : Colors.black54,
+                    color: hasFeedback ? Color(0xFF6C432D) : Color(0xFF6C432D),
                     fontSize: 13.sp,
                   ),
                 ),
@@ -333,7 +361,11 @@ class _ChemTryPageState extends State<ChemTryPage> {
         SizedBox(height: 10.h),
         Text(
           'Koreksi Jawaban:',
-          style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontSize: 18.sp,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
         SizedBox(height: 10.h),
         ..._questions.map((question) {

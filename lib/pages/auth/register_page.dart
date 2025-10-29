@@ -86,7 +86,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFC2A180),
+      backgroundColor: Color(0xFFB07C48),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -110,7 +110,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 width: double.infinity,
                 padding: EdgeInsets.all(25.r),
                 decoration: BoxDecoration(
-                  color: Color(0xFF6C432D),
+                  color: Color(0xFF4F200D),
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(50.r),
                     topRight: Radius.circular(50.r),
@@ -342,7 +342,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: ElevatedButton(
                         onPressed: signUp,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFFED832F),
+                          backgroundColor: Color(0xFFF78409),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25.r),
                           ),

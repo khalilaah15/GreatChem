@@ -43,7 +43,7 @@ class _DiskusiKelompokPageState extends State<DiskusiKelompokPage> {
         ),
         centerTitle: true,
         title: Text(
-          'ChemTalk',
+          'Diskusi Kelompok',
           style: TextStyle(
             color: Colors.white,
             fontSize: 24.sp,
@@ -51,11 +51,41 @@ class _DiskusiKelompokPageState extends State<DiskusiKelompokPage> {
             fontWeight: FontWeight.w800,
           ),
         ),
-        backgroundColor: const Color(0xFF6C432D),
+        backgroundColor: const Color(0xFF4F200D),
       ),
       backgroundColor: const Color(0xFFDFCFB5),
       body: Column(
         children: [
+          Container(
+            margin: EdgeInsets.all(10.r),
+            padding: EdgeInsets.all(16.r),
+            clipBehavior: Clip.antiAlias,
+            decoration: ShapeDecoration(
+              color: const Color(0xFFFF9A00),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.r),
+              ),
+              shadows: [
+                BoxShadow(
+                  color: const Color(0x3F000000),
+                  blurRadius: 4.r,
+                  offset: const Offset(0, 0),
+                  spreadRadius: 0,
+                ),
+              ],
+            ),
+            child: Text(
+              'Diskusi Kelompok',
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 13.sp,
+                fontFamily: 'Plus Jakarta Sans',
+                fontWeight: FontWeight.w600,
+                height: 1.25,
+              ),
+            ),
+          ),
           Expanded(
             child: StreamBuilder<List<ChatMessage>>(
               stream: _chatService.getMessagesStream(widget.room.id),
@@ -100,10 +130,8 @@ class _DiskusiKelompokPageState extends State<DiskusiKelompokPage> {
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(16.r),
             topRight: Radius.circular(16.r),
-            bottomRight:
-                isMe ? Radius.circular(4.r) : Radius.circular(16.r),
-            bottomLeft:
-                isMe ? Radius.circular(16.r) : Radius.circular(4.r),
+            bottomRight: isMe ? Radius.circular(4.r) : Radius.circular(16.r),
+            bottomLeft: isMe ? Radius.circular(16.r) : Radius.circular(4.r),
           ),
           boxShadow: [
             BoxShadow(

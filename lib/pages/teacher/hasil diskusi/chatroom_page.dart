@@ -42,7 +42,7 @@ class _ChatRoomGuruPageState extends State<ChatRoomGuruPage> {
         ),
         centerTitle: true,
         title: Text(
-          'Hasil Diskusi Kelompok',
+          'Diskusi Kelompok',
           style: TextStyle(
             color: Colors.white,
             fontSize: 24.sp,
@@ -50,11 +50,46 @@ class _ChatRoomGuruPageState extends State<ChatRoomGuruPage> {
             fontWeight: FontWeight.w800,
           ),
         ),
-        backgroundColor: const Color(0xFF6C432D),
+        backgroundColor: const Color(0xFF4F200D),
       ),
-      backgroundColor: const Color(0xFFDFCFB5),
+      backgroundColor: const Color(0xFFB07C48),
       body: Column(
         children: [
+          Container(
+            margin: EdgeInsets.all(10.r),
+            padding: EdgeInsets.only(
+              top: 16.r,
+              bottom: 16.r,
+              left: 25.r,
+              right: 25.r,
+            ),
+            clipBehavior: Clip.antiAlias,
+            decoration: ShapeDecoration(
+              color: const Color(0xFFF9EF96),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.r),
+              ),
+              shadows: [
+                BoxShadow(
+                  color: const Color(0x3F000000),
+                  blurRadius: 4.r,
+                  offset: const Offset(0, 0),
+                  spreadRadius: 0,
+                ),
+              ],
+            ),
+            child: Text(
+              'Diskusi Kelompok',
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                color: Color(0xFF4F200D),
+                fontSize: 13.sp,
+                fontFamily: 'Plus Jakarta Sans',
+                fontWeight: FontWeight.w600,
+                height: 1.25,
+              ),
+            ),
+          ),
           Expanded(
             child: StreamBuilder<List<ChatMessage>>(
               stream: _chatService.getMessagesStream(widget.room.id),

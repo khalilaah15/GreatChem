@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:greatchem/pages/student/chemLearn/Membimbing/membimbing_page.dart';
 import 'package:greatchem/pages/student/chemLearn/Mengorganisasikan/artificial_intelligence_page.dart';
 import 'package:greatchem/pages/student/chemLearn/Mengorganisasikan/ebook_page.dart';
 
@@ -33,7 +34,7 @@ class MenuOrganisasiPage extends StatelessWidget {
         ),
         centerTitle: true,
         title: Text(
-          'Mengorganisasikan Siswa',
+          'Koordinasi Reaksi',
           style: TextStyle(
             color: Colors.white,
             fontSize: 24.sp,
@@ -41,9 +42,23 @@ class MenuOrganisasiPage extends StatelessWidget {
             fontWeight: FontWeight.w800,
           ),
         ),
-        backgroundColor: const Color(0xFF6C432D),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.arrow_forward_ios, color: Colors.white),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MembimbingPage(onFinished: () {}),
+                ),
+              );
+            },
+          ),
+          SizedBox(width: 5.w),
+        ],
+        backgroundColor: const Color(0xFF4F200D),
       ),
-      backgroundColor: const Color(0xFFDFCFB5),
+      backgroundColor: const Color(0xFFB07C48),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -54,7 +69,7 @@ class MenuOrganisasiPage extends StatelessWidget {
               width: double.infinity,
               clipBehavior: Clip.antiAlias,
               decoration: ShapeDecoration(
-                color: const Color(0xFFFFDC7C),
+                color: const Color(0xFFF9EF96),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.r),
                 ),
@@ -84,33 +99,6 @@ class MenuOrganisasiPage extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
             child: GestureDetector(
-              onTap: _goToNextPage,
-              child: Column(
-                children: [
-                  SvgPicture.asset(
-                    'assets/images/AI.svg',
-                    width: 90.w,
-                    height: 90.h,
-                  ),
-                  SizedBox(height: 8.h),
-                  Text(
-                    'AI',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: const Color(0xFF6C432D),
-                      fontSize: 20.sp,
-                      fontFamily: 'Plus Jakarta Sans',
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(height: 24.h),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: GestureDetector(
               onTap: _goToNextSecondPage,
               child: Column(
                 children: [
@@ -124,7 +112,7 @@ class MenuOrganisasiPage extends StatelessWidget {
                     'E-Book',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: const Color(0xFF6C432D),
+                      color: Colors.white,
                       fontSize: 20.sp,
                       fontFamily: 'Plus Jakarta Sans',
                       fontWeight: FontWeight.w800,
@@ -134,6 +122,34 @@ class MenuOrganisasiPage extends StatelessWidget {
               ),
             ),
           ),
+          SizedBox(height: 24.h),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: GestureDetector(
+              onTap: _goToNextPage,
+              child: Column(
+                children: [
+                  SvgPicture.asset(
+                    'assets/images/AI.svg',
+                    width: 90.w,
+                    height: 90.h,
+                  ),
+                  SizedBox(height: 8.h),
+                  Text(
+                    'Artificial Intelligence',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20.sp,
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
           const Spacer(),
           Image.asset('assets/images/bottom.png', fit: BoxFit.cover),
         ],
